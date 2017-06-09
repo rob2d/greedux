@@ -13,7 +13,6 @@ A modular, clean and modern workflow framework for React/Redux development
 ### Roadmap ###
 
 - Create meaningful README.md to put here for installation/use
-- Remove auto SemVer patch # version bumps in build
-  process
+- Remove auto SemVer patch # version bumps in build that were specific to a personal project workflow
 - Add template content to `modules/core/components/MainApp`
 - Fill in certain Webpack features such as CSS imports
