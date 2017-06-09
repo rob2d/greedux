@@ -46,10 +46,6 @@ const reducer = (state={...initialState}, action)=>
                 return Object.assign({ ...state }, { viewportWidth, viewportHeight });
             }
             else return state;  //otherwise do not mutate
-        case OPEN_APP_MENU :
-            return Object.assign({ ...state }, { appMenuOpen : true });
-        case CLOSE_APP_MENU :
-            return Object.assign({ ...state }, { appMenuOpen : false });
         default:
             break;
     }
