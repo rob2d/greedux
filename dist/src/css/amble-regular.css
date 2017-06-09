@@ -1,0 +1,12 @@
+@font-face {
+    font-family: 'ambleregular';
+    src: url('../fonts/Amble-Regular-webfont.eot');
+    src: url('../fonts/Amble-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fonts/Amble-Regular-webfont.woff') format('woff'),
+         url('../fonts/Amble-Regular-webfont.ttf') format('truetype'),
+         url('../fonts/Amble-Regular-webfont.svg#ambleregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
