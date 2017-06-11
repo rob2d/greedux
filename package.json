@@ -69,7 +69,7 @@
     "test": "node app.js"
   },
   "files": [
-    "generators"
+    "app"
   ],
   "keywords": [
     "material-ui",
