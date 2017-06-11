@@ -1,8 +1,8 @@
 {
-  "name": "react-redux-framework",
+  "name": "generator-react-redux-mui",
   "displayName": "React Framework 2017",
   "version": "0.0.1",
-  "description": "A clean workspace/workflow framework supporting React, Redux, Material-UI, Live Reload as well as non Live Reload express server to create maintainable modular front-end web apps",
+  "description": "A clean workspace/workflow template supporting React, Redux, Material-UI, Live Reload as well as non Live Reload express server to create maintainable modular front-end web apps",
   "main": "app.js",
   "dependencies": {
     "cli-table": "^0.3.1",
@@ -10,7 +10,8 @@
     "ejs": "^2.3.4",
     "envify": "^4.0.0",
     "express": "^4.15.2",
-    "yargs": "^8.0.1"
+    "yargs": "^8.0.1",
+    "yeoman-generator": "^1.0.0"
   },
   "devDependencies": {
     "babel-core": "6.24.0",
@@ -67,11 +68,15 @@
     "dev": "gulp && node app.js",
     "test": "node app.js"
   },
+  "files": [
+    "generators"
+  ],
   "keywords": [
     "material-ui",
     "reactjs",
     "react",
     "gulp",
+    "yeoman-generator",
     "template"
   ],
   "author": "Robert Concepcion III",
