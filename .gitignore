@@ -1,5 +1,5 @@
 dist/src/*.js
-dist/dist/*.js
+dist/build/*.js
 dist/build/**
 .idea
 .idea/**/*.*
