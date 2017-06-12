@@ -1,8 +1,10 @@
 // our base generator file;
 // see Yeoman documentation for details:
 // http://yeoman.io/authoring/
+var mkdirp = require('mkdirp');
+var path   = require('path');
 
-const GLOB_OPTS = { globOptions : true };
+const ENABLE_GLOBBING = { globOptions : true };
 
 var Generator = require('yeoman-generator');
 
@@ -10,12 +12,42 @@ module.exports = class extends Generator
 {
     app ()
     {
-        this.copy('./.gitignore', './.gitignore');
-        this.copy('./gulpfile.js', './gulpfile.js');
-        this.copy('./src/build-config/**/*.*', './src/build-config/**/*.*', GLOB_OPTS);
-        this.copy('./src/js/**/*.*', './src/js/**/*.*', GLOB_OPTS);
-        this.copy('./dist/src/index.html', './dist/src/index.html', GLOB_OPTS);
-        this.copy('./dist/src/css/**/*.*', './dist/src/css/**/*.*', GLOB_OPTS);
-        this.copy('./dist/fonts/fonts/**/*.*', './dist/src/fonts/**/*.*', GLOB_OPTS);
+        let srcPath = this.sourceRoot(),
+            destPath = this.destinationPath();
+
+        //TODO : DRY
+
+        this.fs.copy(
+            srcPath+'/.gitignore',
+            destPath + '/.gitignore'
+        );
+        this.fs.copy(
+            srcPath+'/gulpfile.js',
+            destPath+'/gulpfile.js'
+        );
+        this.fs.copy(
+            srcPath+'/build-config/*.*',
+            destPath +'/build-config',
+            ENABLE_GLOBBING
+        );
+        this.fs.copy(
+            srcPath+'/src/js/**/*.*',
+            destPath +'/src/js/',
+            ENABLE_GLOBBING
+        );
+        this.fs.copy(
+            srcPath+'/dist/src/index.html',
+            destPath + '/dist/src/index.html'
+        );
+        this.fs.copy(
+            srcPath+'/dist/src/css/**/*.*',
+            destPath + '/dist/src/css/',
+            ENABLE_GLOBBING
+        );
+        this.fs.copy(
+            srcPath+'/dist/src/fonts/**/*.*',
+            destPath + '/dist/src/css/fonts ',
+            ENABLE_GLOBBING
+        );
     }
 };
