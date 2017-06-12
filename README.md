@@ -3,7 +3,7 @@ A modular, clean and modern workflow framework for React/Redux development
 ### Features ###
 - Optional live-reload environment in gulp
 - Easy and declarative folder structure 
-- Modifiable build code
+- Easily modifiable build code
 - Modular React/Redux architecture which lend themselves well to unit testing
 - Material-UI `@next` and JSS fully supported
 - Minimal express server which supports easy switch between HTTP/HTTPS
