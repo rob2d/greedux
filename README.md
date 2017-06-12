@@ -16,4 +16,4 @@ A modular, clean and modern workflow framework for React/Redux development
 - Create a separate generator to make **material-ui** and associated fonts/files optional
 - Remove auto SemVer patch # version bumps in build that were specific to a personal project workflow
 - Add template content to `modules/core/components/MainApp`
-- Fill in certain Webpack features such as CSS imports
+- Fill in actual commonly used Webpack features such as CSS imports
