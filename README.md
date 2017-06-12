@@ -1,4 +1,4 @@
-A modular, clean and modern workflow framework for React/Redux development
+A modular, clean and modern workflow template for React/Redux development
 
 ### Features ###
 - Optional live-reload environment in gulp
