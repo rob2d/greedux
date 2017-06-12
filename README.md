@@ -13,7 +13,7 @@ A modular, clean and modern workflow framework for React/Redux development
 ### Roadmap ###
 
 - Create meaningful README.md to put here for installation/use
-- Create a separate generator to make *material-ui* and associated fonts/files optional
+- Create a separate generator to make **material-ui** and associated fonts/files optional
 - Remove auto SemVer patch # version bumps in build that were specific to a personal project workflow
 - Add template content to `modules/core/components/MainApp`
 - Fill in certain Webpack features such as CSS imports
