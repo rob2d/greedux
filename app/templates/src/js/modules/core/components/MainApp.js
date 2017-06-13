@@ -8,7 +8,6 @@ import {
     createStyleSheet
 } from 'material-ui/styles';
 
-import {Tabs, Tab }    from 'material-ui/Tabs'
 import { muiRequired } from 'material-ui/utils/customPropTypes'
 
 import store         from '../../../store'
@@ -64,14 +63,11 @@ class MainApp extends PureComponent
                     <div className="mainWrapper">
                         <div className="mainContent">
                             <div className={classes.mainContainer}>
-                                Main Content here!
+                                Hello new React/Redux App!
                             </div>
                         </div>
                         <div className="appFooter">
-                            &copy;&nbsp;2017&nbsp;
-                            <span className={classes.copyrightCompany}>
-                                Whateversoft
-                            </span>
+                            Footer content goes here
                         </div>
                     </div>
                 </div>
