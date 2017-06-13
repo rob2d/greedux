@@ -6,7 +6,7 @@ A modular, clean and modern workflow template for React/Redux development
 - Easily modifiable build code written in gulp; no magical configuration
 - Modular React/Redux architecture which lend themselves well to unit testing
 - Material-UI `@next` and JSS fully supported
-- Minimal express server which supports easy switch between HTTP/HTTPS
+- Minimal express server which supports easy switching between HTTP/HTTPS
 - Redux and Redux-Router (both `@ next`)
 - Flags for giving OS notices when builds are successful or not
 
