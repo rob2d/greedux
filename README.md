@@ -5,6 +5,7 @@ A modular, clean and modern workflow template for React/Redux development
 - Easy and declarative folder structure 
 - Easily modifiable build code written in gulp; no magical configuration
 - Modular React/Redux architecture which lend themselves well to unit testing
+- Minimal and clean localization templates  for language selection on welcome template
 - Material-UI `@next` and JSS fully supported
 - Minimal express server which supports easy switching between HTTP/HTTPS
 - Redux and Redux-Router (both `@ next`)
@@ -23,13 +24,12 @@ A modular, clean and modern workflow template for React/Redux development
 - Create meaningful README.md to put here for how to run server/build environment
 - Trim a few unnecessary build packages for template's npm dependencies
 - Remove auto SemVer patch # version bumps in build that were specific to a personal project workflow
-- Add template content to `modules/core/components/MainApp`
+- Display an example of easy localization tools
 - Fill in actual commonly used Webpack features such as CSS imports
 - Create a separate generator to make **material-ui** and associated fonts/files optional
 
 
 ### Important Note ###
-This repo is a work in progress; it has been put on NPM simply to test Yeoman's 
-package system. Please keep that in mind.
+This repo is an active work in progress; Please keep that in mind.
 
-PR Requests are always welcome! Thanks.
+With that said, PR Requests are always welcome! Thanks.

@@ -7,9 +7,7 @@ import {
     withStyles,
     createStyleSheet
 } from 'material-ui/styles';
-
 import { muiRequired } from 'material-ui/utils/customPropTypes'
-
 import store         from '../../../store'
 import { connect }   from 'react-redux'
 
@@ -18,6 +16,21 @@ import { refreshWindowDimensions } from './../actions'
 
 const styleSheet = createStyleSheet('MainApp',
 {
+    appWrapper :
+    {
+        minHeight       : '100%',
+        margin          : '0px auto',
+        display         : 'flex',
+        flexDirection   : 'row'
+    },
+    mainWrapper :
+    {
+        minHeight       : '100%',
+        margin          : '0px auto',
+        display         : 'flex',
+        flexDirection   : 'column',
+        flex            : '1 0 auto'
+    },
     contentWrapper :
     {
         maxWidth : '720px',
@@ -31,6 +44,17 @@ const styleSheet = createStyleSheet('MainApp',
         justifyContent : 'center',
         flex           : '1 0 auto',
         flexDirection  : 'column'
+    },
+    mainContent :
+    {
+        flexDirection : 'column',
+        display       : 'flex',
+        flex          : '1 0 auto'
+    },
+    appFooter :
+    {
+        height    : '40px',
+        textAlign : 'center'
     }
 });
 
@@ -59,14 +83,14 @@ class MainApp extends PureComponent
         const { classes } = this.props;
 
         return (
-                <div className="appWrapper">
-                    <div className="mainWrapper">
-                        <div className="mainContent">
+                <div className={classes.appWrapper}>
+                    <div className={classes.mainWrapper}>
+                        <div className={classes.mainContent}>
                             <div className={classes.mainContainer}>
                                 Hello new React/Redux App!
                             </div>
                         </div>
-                        <div className="appFooter">
+                        <div className={classes.appFooter}>
                             Footer content goes here
                         </div>
                     </div>

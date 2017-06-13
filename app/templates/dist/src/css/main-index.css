@@ -16,36 +16,6 @@ html, body
     display    : inline;
 }
 
-.appWrapper
-{
-    min-height      : 100%;
-    margin          : 0px auto;
-    display         : flex;
-    flex-direction  : row;
-}
-
-.mainWrapper
-{
-    min-height      : 100%;
-    margin          : 0px auto;
-    display         : flex;
-    flex-direction  : column;
-    flex            : 1 0 auto;
-}
-
-.mainContent
-{
-    flex-direction:column;
-    display : flex;
-    flex : 1 0 auto;
-}
-
-.appFooter
-{
-    height : 40px;
-    text-align : center;
-}
-
 /* relative-pixel screen-width cutoff points */
 
 @media (max-width : 900px)
