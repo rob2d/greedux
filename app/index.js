@@ -109,7 +109,6 @@ module.exports = class extends BaseGenerator
             'jss-theme-reactor@^0.11.1',
             'livereactload@^4.0.0-beta.2',
             'material-ui@1.0.0-alpha.16',
-            'moment@^2.12.0',
             'node-notifier@^5.0.2',
             'react@^15.3.0',
             'react-dom@^15.3.0',
