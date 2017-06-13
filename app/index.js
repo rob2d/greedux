@@ -1,51 +1,146 @@
 // our base generator file;
-// see Yeoman documentation for details:
+// see Yeoman documentation for details on configuration:
 // http://yeoman.io/authoring/
 
 const ENABLE_GLOBBING = { globOptions : true };
 
 var Generator = require('yeoman-generator');
 
-module.exports = class extends Generator
+/**
+ * A class extended directly from
+ * a generator but not imported;
+ * contains our helpful methods
+ *
+ * [just an opinionated alternative
+ * to prefixing helpers with _s]
+ */
+class BaseGenerator extends Generator
 {
-    app ()
+    constructor(args, opts)
     {
-        let srcPath = this.sourceRoot(),
-            destPath = this.destinationPath();
+        super(args, opts);
 
-        //TODO : DRY
+        // for easy reference
+        this.srcPath = this.sourceRoot();
+        this.destPath = this.destinationPath();
+    }
+    copyFromTemplate (filePattern, useGlob)
+    {
+        if(!useGlob)
+        {
+            this.fs.copy(
+                `${this.srcPath}/${filePattern}`,
+                `${this.destPath}/${filePattern}`
+            );
+        }
+        else
+        {
+            // cut off globs at last major folder (unless we change the rules here)
+            let destPattern = filePattern.lastIndexOf('/**') != -1 ?
+                                    filePattern.substr(0, filePattern.lastIndexOf('/**')) :
+                                    filePattern;
 
-        this.fs.copy(
-            srcPath+'/.gitignore',
-            destPath + '/.gitignore'
-        );
-        this.fs.copy(
-            srcPath+'/gulpfile.js',
-            destPath+'/gulpfile.js'
-        );
-        this.fs.copy(
-            srcPath+'/build-config/*.*',
-            destPath +'/build-config',
-            ENABLE_GLOBBING
-        );
-        this.fs.copy(
-            srcPath+'/src/js/**/*.*',
-            destPath +'/src/js/',
-            ENABLE_GLOBBING
-        );
-        this.fs.copy(
-            srcPath+'/dist/src/index.html',
-            destPath + '/dist/src/index.html'
-        );
-        this.fs.copy(
-            srcPath+'/dist/src/css/**/*.*',
-            destPath + '/dist/src/css/',
-            ENABLE_GLOBBING
-        );
-        this.fs.copy(
-            srcPath+'/dist/src/fonts/**/*.*',
-            destPath + '/dist/src/css/fonts ',
-            ENABLE_GLOBBING
-        );
+            if(destPattern.lastIndexOf('/*.*') != -1)
+            {
+                destPattern = destPattern.substr(0, destPattern.lastIndexOf('/*.*'));
+            }
+
+            console.log('source pattern : ', `${this.srcPath}/${filePattern}`);
+            console.log('dest pattern : ', `${this.destPath}/${destPattern}`);
+
+            this.fs.copy(
+                `${this.srcPath}/${filePattern}`,
+                `${this.destPath}/${destPattern}`,
+                ENABLE_GLOBBING
+            );
+        }
+    }
+}
+
+module.exports = class extends BaseGenerator
+{
+    copyFiles ()
+    {
+        // TODO (1) make recursive function with array
+        // TODO ...  and auto-glob detection
+
+        // TODO (2) check for package.json in destination
+        // TODO ... path and do not overwrite anything
+        // TODO ...  in it except for scripts
+
+        this.copyFromTemplate('package.json');
+        this.copyFromTemplate('.gitignore');
+        this.copyFromTemplate('gulpfile.js');
+        this.copyFromTemplate('build-config/*.*', true);
+        this.copyFromTemplate('src/js/**/*.*', true);
+        this.copyFromTemplate('dist/src/index.html');
+        this.copyFromTemplate('/dist/src/css/**/*.*', true);
+        this.copyFromTemplate('/dist/src/fonts/**/*.*', true);
+    }
+    installBuildDependencies ()
+    {
+        // TODO : trim the fat
+
+        this.npmInstall([
+            'babel-core@^6.24.0',
+            'babel-plugin-add-module-exports@^0.2.1',
+            'babel-plugin-transform-decorators-legacy@^1.3.4',
+            'babel-plugin-transform-object-assign@^6.22.0',
+            'babel-plugin-transform-remove-strict-mode@^0.0.2',
+            'babel-polyfill@^6.23.0',
+            'babel-preset-es2015@^6.9.0',
+            'babel-preset-react@^6.23.0',
+            'babel-preset-stage-0@^6.22.0',
+            'babelify@^7.2.0',
+            'browserify@^14.1.0',
+            'events@^1.1.1',
+            'figlet@^1.2.0',
+            'gulp@^3.9.1',
+            'gulp-clean-css@^3.0.3',
+            'gulp-if@2.0.1',
+            'gulp-imagemin@^3.0.1',
+            'gulp-replace@^0.5.4',
+            'gulp-server-livereload@^1.9.2',
+            'gulp-streamify@^1.0.0',
+            'gulp-strip-debug@^1.1.0',
+            'gulp-uglify@^2.0.1',
+            'gulp-useref@^3.1.0',
+            'history@^4.6.1',
+            'jss-theme-reactor@^0.11.1',
+            'livereactload@^4.0.0-beta.2',
+            'material-ui@1.0.0-alpha.16',
+            'moment@^2.12.0',
+            'node-notifier@^5.0.2',
+            'react@^15.3.0',
+            'react-dom@^15.3.0',
+            'react-hot-loader@^3.0.0-beta.6',
+            'react-localization@^0.0.16',
+            'react-redux@^5.0.5',
+            'react-router-dom@^4.0.6',
+            'react-router-redux@^5.0.0-alpha.4',
+            'react-tap-event-plugin@^2.0.1',
+            'reactify@^1.1.1',
+            'recompose@^0.22.0',
+            'redux@^3.6.0',
+            'redux-logger@^3.0.1',
+            'redux-promise-middleware@^4.2.0',
+            'redux-thunk@^2.2.0',
+            'run-sequence@^1.2.1',
+            'vinyl-buffer',
+            'vinyl-source-stream@^1.1.0',
+            'watchify@^3.3.1'
+        ], { 'save-dev': true });
+    }
+
+    installServerDependencies ()
+    {
+        this.npmInstall([
+            'cli-table@^0.3.1',
+            'colors@^1.1.2',
+            'ejs@^2.3.4',
+            'envify@^4.0.0',
+            'express@^4.15.2',
+            'yargs@^8.0.1'
+        ], {'save' : true });
     }
 };

@@ -1,0 +1,9 @@
+{
+  "name": "awesome-react-app",
+  "version": "0.0.1",
+  "description": "Time to get to making stuff!",
+  "main": "app.js",
+  "scripts": {
+    "dev": "gulp && node app.js"
+  }
+}
