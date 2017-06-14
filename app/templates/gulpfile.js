@@ -205,7 +205,7 @@ let Log =
         console.log(appPrintOut);
         console.log(`\t\tSource Code Builder\n`);
         console.log(`> Running in ${mode == 'build' ? 'Build':'Dev'} Mode\n`);
-        console.log('[ gulp tasks: build \u2022 dev (default) ]\n');
+        console.log('[ gulp tasks: build \u2022 dev-server (default) \u2022 dev ]\n');
 
         Log.listFlags();
 

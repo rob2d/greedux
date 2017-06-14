@@ -1,5 +1,10 @@
 A modular, clean and modern workflow template for React/Redux development!
 
+## Requirements ##
+* NodeJS : 6.x.x - Latest Stable Version
+* NPM : 3.x or higher (Preferably 5.x)
+* Gulp CLI (`npm install -g gulp-cli`)
+
 ## Features ##
 
 - Optional live-reload environment
@@ -36,12 +41,13 @@ simply run `gulp build` , and your server and assets are ready to go.
 In CMD, type `gulp` to begin a live reload server at `localhost:8080`. 
 Currently, hot reloading only detects JS changes so server must be reset for other static resource changes.
 
-#### Typical Development Server ###
+#### Typical Node/Express Development Server ###
 
 If you would like to run without a hot reload server in dev mode, static changes can be detected when refreshing
-without re-running the dev server. simply run `gulp dev` and then in another console `node app --dev` 
+without re-running the dev server . simply run `gulp dev` and then in another console `node app --dev` 
 [port can be specified as param but default is 3030].
 
+(note: currently Live Reload still runs. Disabling this is in roadmap below)
 
 #### Optional Flags ###
 
@@ -54,12 +60,12 @@ without re-running the dev server. simply run `gulp dev` and then in another con
 ## Roadmap ##
 
 - Create meaningful README.md to put here for how to run server/build environment
-- Trim a few unnecessary build packages for template's npm dependencies
 - Remove auto SemVer patch # version bumps in build that were specific to a personal project workflow
+- Make LiveServer optional while developing
 - Display an example of easy localization tools
 - Fill in actual commonly used Webpack features such as CSS imports
 - Create a separate generator to make **material-ui** and associated fonts/files optional
-- Continuous Integration Tests
+- Tests
 
 
 ## *Important Note* ##
