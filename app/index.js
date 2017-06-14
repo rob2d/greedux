@@ -35,18 +35,17 @@ class BaseGenerator extends Generator
         }
         else
         {
-            // cut off globs at last major folder (unless we change the rules here)
+            //  cut off globs at last major folder
+            // (may change the rules here later)
+
             let destPattern = filePattern.lastIndexOf('/**') != -1 ?
-                                    filePattern.substr(0, filePattern.lastIndexOf('/**')) :
-                                    filePattern;
+                                filePattern.substr(0, filePattern.lastIndexOf('/**')) :
+                                filePattern;
 
             if(destPattern.lastIndexOf('/*.*') != -1)
             {
                 destPattern = destPattern.substr(0, destPattern.lastIndexOf('/*.*'));
             }
-
-            console.log('source pattern : ', `${this.srcPath}/${filePattern}`);
-            console.log('dest pattern : ', `${this.destPath}/${destPattern}`);
 
             this.fs.copy(
                 `${this.srcPath}/${filePattern}`,
