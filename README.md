@@ -1,6 +1,7 @@
 A modular, clean and modern workflow template for React/Redux development!
 
 ## Features ##
+
 - Optional live-reload environment
 - Easy and declarative folder structure 
 - Easily modifiable build code written in gulp; no magical configuration
@@ -22,6 +23,7 @@ A modular, clean and modern workflow template for React/Redux development!
 
 #### Packaging the app ###
 simply run `gulp build` , and your server and assets are ready to go.
+
 #### Optional Flags ###
 - **success_notice**  : Display an OS-level success notice
 - **error_sound** : Whether to play an OS error sound when compile error happens
@@ -30,6 +32,7 @@ simply run `gulp build` , and your server and assets are ready to go.
 ## Developing
 
 #### With Live-Reload Server ###
+
 In CMD, type `gulp` to begin a live reload server at `localhost:8080`. 
 Currently, hot reloading only detects JS changes so server must be reset for other static resource changes.
 
@@ -41,6 +44,7 @@ without re-running the dev server. simply run `gulp dev` and then in another con
 
 
 #### Optional Flags ###
+
 - **version_bump** : Bump patch version on successful builds (default false)
 - **success_notice**  : Display an OS-level success notice
 - **error_sound** : Whether to play an OS error sound when compile error happens
