@@ -1,6 +1,6 @@
-A modular, clean and modern workflow template for React/Redux development
+A modular, clean and modern workflow template for React/Redux development!
 
-### Features ###
+## Features ##
 - Optional live-reload environment
 - Easy and declarative folder structure 
 - Easily modifiable build code written in gulp; no magical configuration
@@ -12,14 +12,42 @@ A modular, clean and modern workflow template for React/Redux development
 - Flags for giving OS notices when builds are successful or not
 
 
-### Installation ###
+## Installation ##
 
 1) install Yeoman by running the following: `npm install -g yo`
 2) install the generator: `npm install -g generator-react-redux-gulp`
 3) navigate to a folder pointing to your new project and run `yo react-redux-gulp`, which should install all build and server dependencies to get started on your new project!
 
+## Deployment ##
 
-### Roadmap ###
+#### Packaging the app ###
+simply run `gulp build` , and your server and assets are ready to go.
+#### Optional Flags ###
+- **success_notice**  : Display an OS-level success notice
+- **error_sound** : Whether to play an OS error sound when compile error happens
+- **build_js_debug** : Create a production level build, but do not strip debug messages from console.
+
+## Developing
+
+#### With Live-Reload Server ###
+In CMD, type `gulp` to begin a live reload server at `localhost:8080`. 
+Currently, hot reloading only detects JS changes so server must be reset for other static resource changes.
+
+#### Typical Development Server ###
+
+If you would like to run without a hot reload server in dev mode, static changes can be detected when refreshing
+without re-running the dev server. simply run `gulp dev` and then in another console `node app --dev` 
+[port can be specified as param but default is 3030].
+
+
+#### Optional Flags ###
+- **version_bump** : Bump patch version on successful builds (default false)
+- **success_notice**  : Display an OS-level success notice
+- **error_sound** : Whether to play an OS error sound when compile error happens
+- **build_js_debug** : Create a production level build, but do not strip debug messages from console.
+
+
+## Roadmap ##
 
 - Create meaningful README.md to put here for how to run server/build environment
 - Trim a few unnecessary build packages for template's npm dependencies
@@ -27,9 +55,12 @@ A modular, clean and modern workflow template for React/Redux development
 - Display an example of easy localization tools
 - Fill in actual commonly used Webpack features such as CSS imports
 - Create a separate generator to make **material-ui** and associated fonts/files optional
+- Continuous Integration Tests
 
 
-### Important Note ###
+## *Important Note* ##
 This repo is an active work in progress; Please keep that in mind.
 
-With that said, PR Requests are always welcome! Thanks.
+With that said, PR Requests are always welcome! 
+
+Thanks.
