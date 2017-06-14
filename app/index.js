@@ -71,6 +71,7 @@ module.exports = class extends BaseGenerator
         this.copyFromTemplate('package.json');
         this.copyFromTemplate('.gitignore');
         this.copyFromTemplate('gulpfile.js');
+        this.copyFromTemplate('app.js');
         this.copyFromTemplate('build-config/*.*', true);
         this.copyFromTemplate('src/js/**/*.*', true);
         this.copyFromTemplate('dist/src/index.html');

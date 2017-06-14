@@ -34,6 +34,12 @@ simply run `gulp build` , and your server and assets are ready to go.
 - **error_sound** : Whether to play an OS error sound when compile error happens
 - **build_js_debug** : Create a production level build, but do not strip debug messages from console.
 
+### Running the Node/Express Server ###
+
+Run `app.js` in your root folder after installing; it will list clearly 
+how to specify the proper flags for SSL if needed on your server when
+booting up as well as which server (default port is `3002`).
+
 ## Developing
 
 #### With Live-Reload Server ###
@@ -45,7 +51,7 @@ Currently, hot reloading only detects JS changes so server must be reset for oth
 
 If you would like to run without a hot reload server in dev mode, static changes can be detected when refreshing
 without re-running the dev server . simply run `gulp dev` and then in another console `node app --dev` 
-[port can be specified as param but default is 3030].
+(port can be specified as param but default is `3002`).
 
 (note: currently Live Reload still runs. Disabling this is in roadmap below)
 
@@ -59,7 +65,8 @@ without re-running the dev server . simply run `gulp dev` and then in another co
 
 ## Roadmap ##
 
-- Create meaningful README.md to put here for how to run server/build environment
+- README details forthe HTTP/HTTPS app server
+- npm scripts for developing and launching http/https server simultaneously
 - Remove auto SemVer patch # version bumps in build that were specific to a personal project workflow
 - Make LiveServer optional while developing
 - Display an example of easy localization tools
