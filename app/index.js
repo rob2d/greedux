@@ -16,21 +16,13 @@ var Generator = require('yeoman-generator');
  */
 class BaseGenerator extends Generator
 {
-    constructor(args, opts)
-    {
-        super(args, opts);
-
-        // for easy reference
-        this.srcPath = this.sourceRoot();
-        this.destPath = this.destinationPath();
-    }
     copyFromTemplate (filePattern, useGlob)
     {
         if(!useGlob)
         {
             this.fs.copy(
-                `${this.srcPath}/${filePattern}`,
-                `${this.destPath}/${filePattern}`
+                this.templatePath(filePattern),
+                this.destinationPath(filePattern)
             );
         }
         else
@@ -48,8 +40,8 @@ class BaseGenerator extends Generator
             }
 
             this.fs.copy(
-                `${this.srcPath}/${filePattern}`,
-                `${this.destPath}/${destPattern}`,
+                this.templatePath(filePattern),
+                this.destinationPath(destPattern),
                 ENABLE_GLOBBING
             );
         }
