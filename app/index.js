@@ -1,10 +1,11 @@
 // our base generator file;
 // see Yeoman documentation for details on configuration:
 // http://yeoman.io/authoring/
+var path  = require('path');
+var Generator = require('yeoman-generator');
 
 const ENABLE_GLOBBING = { globOptions : true };
 
-var Generator = require('yeoman-generator');
 
 /**
  * A class extended directly from
@@ -16,6 +17,12 @@ var Generator = require('yeoman-generator');
  */
 class BaseGenerator extends Generator
 {
+    constructor(args, opts)
+    {
+        super(args, opts);
+
+        this.sourceRoot(path.join(__dirname, 'templates'));
+    }
     copyFromTemplate (filePattern, useGlob)
     {
         if(!useGlob)
