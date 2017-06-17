@@ -123,10 +123,10 @@ module.exports = class extends BaseGenerator
             'gulp-strip-debug@^1.1.0',
             'gulp-uglify@^2.0.1',
             'gulp-useref@^3.1.0',
-            'history@^4.6.1',
+            'history@^4.6.2',
             'jss-theme-reactor@^0.11.1',
             'livereactload@^4.0.0-beta.2',
-            'material-ui@1.0.0-alpha.16',
+            'material-ui@1.0.0-alpha.17',
             'node-notifier@^5.0.2',
             'react@^15.6.1',
             'react-dom@^15.6.1',
@@ -140,12 +140,12 @@ module.exports = class extends BaseGenerator
             'recompose@^0.22.0',
             'redux@^3.6.0',
             'redux-logger@^3.0.1',
-            'redux-promise-middleware@^4.2.0',
+            'redux-promise-middleware@^4.3.1',
             'redux-thunk@^2.2.0',
             'run-sequence@^1.2.1',
-            'vinyl-buffer',
+            'vinyl-buffer@^1.0.0',
             'vinyl-source-stream@^1.1.0',
-            'watchify@^3.3.1'
+            'watchify@^3.9.0'
         ], { 'save-dev': true });
     }
 
