@@ -1,6 +1,7 @@
 'use strict'
 
-//TODO -> come up with cleaner way of keeping track of update count, preventing bump-version, etc
+// TODO -> come up with cleaner way of keeping track
+// TODO... of update count, preventing bump-version, etc
 var _global = { DEV_MODE : false };
 
 var gulp          = require('gulp'),
