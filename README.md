@@ -36,9 +36,14 @@ simply run `gulp build` , and your server and assets are ready to go.
 
 ### Running the Node/Express Server ###
 
+
+Note: You must first build the app by calling `gulp build`.
+
 Run `app.js` in your root folder after installing; it will list clearly 
 how to specify the proper flags for SSL if needed on your server when
 booting up as well as which server (default port is `3002`).
+
+Or to simply build and run the app, run `npm start`.
 
 ## Developing
 
