@@ -25,12 +25,14 @@ class BaseGenerator extends Generator
     }
     copyFromTemplate (filePattern, useGlob)
     {
-        let globOptions = Object.assign({}, { dot : false }, ENABLE_GLOBBING);
+        let globOptions = Object.assign({}, { dot : true }, useGlob ? ENABLE_GLOBBING : {});
+
         if(!useGlob)
         {
             this.fs.copy(
                 this.templatePath(filePattern),
-                this.destinationPath(filePattern)
+                this.destinationPath(filePattern),
+                globOptions
             );
         }
         else
@@ -50,7 +52,7 @@ class BaseGenerator extends Generator
             this.fs.copy(
                 this.templatePath(filePattern),
                 this.destinationPath(destPattern),
-                ENABLE_GLOBBING
+                globOptions
             );
         }
     }
