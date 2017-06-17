@@ -2,6 +2,7 @@
 
 // TODO -> come up with cleaner way of keeping track
 // TODO... of update count, preventing bump-version, etc
+
 var _global = { DEV_MODE : false };
 
 var gulp          = require('gulp'),
@@ -81,14 +82,14 @@ const path =
     MINIFIED_OUT   : 'build.min.js',
     BUILDJS_OUT    : 'build.js',
     DEST           : 'build',
-    DEST_BUILD     : 'dist/build',
-    DEST_SRC       : 'dist/src',
+    DEST_PROD     : 'dist/prod',
+    DEST_DEV       : 'dist/dev',
     DIST_SRC_FILES :
     [
-        './dist/src/**/*',
-        '!dist/src/index.html',
+        './dist/dev/**/*',
+        '!dist/dev/index.html',
         '!./**/*.js',
-        '!./dist/src/css/**/*.css',
+        '!./dist/dev/css/**/*.css',
         '!./**/*.+(png|jpg|gif|svg)'
     ],
     ENTRY_POINT         : './src/js/clientApp.js',
@@ -156,8 +157,8 @@ let Notices =
     {
         notifier.notify(
         {
-            title   : 'Watching ' + path.DEST_SRC,
-            message : 'Ready to watch for file changes to build into ' + path.DEST_BUILD,
+            title   : 'Watching ' + path.DEST_DEV,
+            message : 'Ready to watch for file changes to build into ' + path.DEST_PROD,
             sound : false
         });
     }
@@ -191,7 +192,7 @@ let Log =
     watchStarted ()
     {
         console.log(`Getting ready to watching for file changes to build to 
-                [${path.DEST_BUILD.bold}]\n`);
+                [${path.DEST_PROD.bold}]\n`);
     },
     startNotice (mode)
     {
@@ -350,7 +351,7 @@ function scripts(p)
 
         if(watch && rebuild)
         {
-            return stream.pipe(gulp.dest(path.DEST_SRC));
+            return stream.pipe(gulp.dest(path.DEST_DEV));
         }
         else
         {
@@ -401,7 +402,7 @@ gulp.task('dev-server', ['dev'], function()
 {
     global.DEV_MODE = true;
     Log.startNotice('dev');
-    return gulp.src(path.DEST_SRC)
+    return gulp.src(path.DEST_DEV)
         .pipe(liveReload(
         {
             host: '0.0.0.0',
@@ -414,23 +415,23 @@ gulp.task('dev-server', ['dev'], function()
 
 gulp.task('html-ref-and-concat-css', function()
 {
-    return gulp.src(path.DEST_SRC + '/index.html')
+    return gulp.src(path.DEST_DEV + '/index.html')
         .pipe(gulpIf('*.css', cleanCss()))  // minify css files
         .pipe(useref())                     // for html build file markup
-        .pipe(gulp.dest(path.DEST_BUILD));
+        .pipe(gulp.dest(path.DEST_PROD));
 });
 
 gulp.task('minify-images', function()
 {
-    return gulp.src(path.DEST_SRC + '/**/*.+(png|jpg|gif|svg)')
+    return gulp.src(path.DEST_DEV + '/**/*.+(png|jpg|gif|svg)')
         .pipe(imagemin())
-        .pipe(gulp.dest(path.DEST_BUILD));
+        .pipe(gulp.dest(path.DEST_PROD));
 });
 
 gulp.task('copy-extra-to-build', function()
 {
     return gulp.src(path.DIST_SRC_FILES)
-        .pipe(gulp.dest(path.DEST_BUILD));
+        .pipe(gulp.dest(path.DEST_PROD));
 });
 
 gulp.task('check-for-version-bump', function()
@@ -477,7 +478,7 @@ gulp.task('build',
         return scripts({ watch : false })
             .pipe(buffer())
             .pipe(uglify().on('error', gulpUtil.log))
-            .pipe(gulp.dest(path.DEST_BUILD));
+            .pipe(gulp.dest(path.DEST_PROD));
     }
     else
     {
@@ -485,7 +486,7 @@ gulp.task('build',
             .pipe(buffer())
             .pipe(uglify().on('error', gulpUtil.log))
             .pipe(stripDebug())                         //remove console logging
-            .pipe(gulp.dest(path.DEST_BUILD));
+            .pipe(gulp.dest(path.DEST_PROD));
     }
 });
 

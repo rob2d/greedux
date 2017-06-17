@@ -2,6 +2,7 @@
 // see Yeoman documentation for details on configuration:
 // http://yeoman.io/authoring/
 var path  = require('path');
+var fs = require('fs');
 var Generator = require('yeoman-generator');
 
 const ENABLE_GLOBBING = { globOptions : true };
@@ -81,9 +82,14 @@ module.exports = class extends BaseGenerator
         this.copyFromTemplate('app.js');
         this.copyFromTemplate('build-config/*.*', true);
         this.copyFromTemplate('src/js/**/*.*', true);
-        this.copyFromTemplate('dist/src/index.html');
-        this.copyFromTemplate('dist/src/css/**/*.*', true);
-        this.copyFromTemplate('dist/src/fonts/**/*.*', true);
+        this.copyFromTemplate('dist/dev/index.html');
+        this.copyFromTemplate('dist/dev/css/**/*.*', true);
+        this.copyFromTemplate('dist/dev/css/*.*', true);
+        this.copyFromTemplate('dist/dev/fonts/**/*.*', true);
+
+        if (!fs.existsSync('dist/prod')){
+            fs.mkdirSync('dist/prod');
+        }
     }
     installBuildDependencies ()
     {
