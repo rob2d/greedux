@@ -25,6 +25,7 @@ class BaseGenerator extends Generator
     }
     copyFromTemplate (filePattern, useGlob)
     {
+        let globOptions = Object.assign({}, { dot : false }, ENABLE_GLOBBING);
         if(!useGlob)
         {
             this.fs.copy(
@@ -73,8 +74,8 @@ module.exports = class extends BaseGenerator
         this.copyFromTemplate('build-config/*.*', true);
         this.copyFromTemplate('src/js/**/*.*', true);
         this.copyFromTemplate('dist/src/index.html');
-        this.copyFromTemplate('/dist/src/css/**/*.*', true);
-        this.copyFromTemplate('/dist/src/fonts/**/*.*', true);
+        this.copyFromTemplate('dist/src/css/**/*.*', true);
+        this.copyFromTemplate('dist/src/fonts/**/*.*', true);
     }
     installBuildDependencies ()
     {
