@@ -1,6 +1,6 @@
 {
   "name": "generator-react-redux-gulp",
-  "version": "0.0.14",
+  "version": "0.0.15",
   "description": "A clean workspace/workflow template supporting React, Redux, Material-UI, Live Reload as well as non Live Reload express server to create maintainable modular front-end web apps",
   "dependencies": {
     "yeoman-generator": "^1.0.0"

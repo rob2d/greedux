@@ -87,8 +87,12 @@ module.exports = class extends BaseGenerator
         this.copyFromTemplate('dist/dev/css/*.*', true);
         this.copyFromTemplate('dist/dev/fonts/**/*.*', true);
 
-        if (!fs.existsSync('dist/prod')){
-            fs.mkdirSync('dist/prod');
+        if (!fs.existsSync(this.destinationPath('dist'))){
+            fs.mkdirSync(this.destinationPath('dist'));
+        }
+
+        if (!fs.existsSync(this.destinationPath('dist/prod'))){
+            fs.mkdirSync(this.destinationPath('dist/prod'));
         }
     }
     installBuildDependencies ()
