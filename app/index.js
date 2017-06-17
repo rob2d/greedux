@@ -70,7 +70,13 @@ module.exports = class extends BaseGenerator
         // TODO ...  in it except for scripts
 
         this.copyFromTemplate('package.json');
-        this.copyFromTemplate('.gitignore');
+
+        this.fs.copy(
+            this.templatePath('_gitignore'),
+            this.destinationPath('.gitignore'),
+            { dot : true }
+        );
+
         this.copyFromTemplate('gulpfile.js');
         this.copyFromTemplate('app.js');
         this.copyFromTemplate('build-config/*.*', true);
