@@ -8,5 +8,4 @@
       "start": "gulp build && node app.js",
       "dev": "gulp && node app.js --dev"
     }
-  }
 }
