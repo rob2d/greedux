@@ -140,7 +140,7 @@ module.exports = class extends BaseGenerator
             'recompose@^0.22.0',
             'redux@^3.6.0',
             'redux-logger@^3.0.1',
-            'redux-promise-middleware@^4.3.0',
+            'redux-promise-middleware@^4.2.1',
             'redux-thunk@^2.2.0',
             'run-sequence@^1.2.1',
             'vinyl-buffer@^1.0.0',

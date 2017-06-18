@@ -20,7 +20,7 @@ let express   = require('express'),
     argv      = require('yargs').argv,        //grabs our app arguments
     colors    = require('colors'),
     RUNTIME   = { PORT : argv.port || 3002 },
-    codeDir   = argv.dev ? 'dist/src' : 'dist/build',
+    codeDir   = argv.dev ? 'dist/dev' : 'dist/prod',
     SSL       = (()=>
     {
         if(argv.https)
@@ -56,7 +56,7 @@ let xDomainMiddleware = (req, res, next)=>
 {
     res.header('Access-Control-Allow-Origin', "*");
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-    res.header('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
 };
 
