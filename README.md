@@ -7,15 +7,15 @@ A modular, clean and modern workflow template for React/Redux development!
 
 ## Features ##
 
-- Optional live-reload environment
+- Live reloading
 - Easy and declarative folder structure 
-- Easily modifiable build code written in gulp; no magical configuration
+- Easily modifiable build code written in gulp; no magical configuration (!)
 - Modular React/Redux architecture which lend themselves well to unit testing
-- Minimal and clean localization templates  for language selection on welcome template
-- Includes simple JSS (via `react-jss`) for more intuitive and optimal React styling
-- Minimal express server which supports easy switching between HTTP/HTTPS
-- Redux and Redux-Router (both `@ next`)
-- Flags for giving OS notices when builds are successful or not
+- Includes simple JSS (via `react-jss`) for optimal/readable React styling
+- Easy & declarative multi-language support in your app out of the box
+- Minimal deployable Express server which supports easy switching between HTTP/HTTPS
+- Redux and Redux-Router
+- Flags for giving OS notices when builds are successful or fail
 
 
 ## Installation ##
@@ -71,9 +71,8 @@ without re-running the dev server . simply run `gulp dev` and then in another co
 ## Roadmap ##
 
 - npm scripts for developing and launching http/https server simultaneously
-- Remove auto SemVer patch # version bumps in build that were specific to a personal project workflow
 - Make LiveServer optional while developing
-- Display an example of easy localization tools
+- Display an example of easy localization/language tools
 - Fill in actual commonly used Webpack features such as CSS imports
 - Tests
 
