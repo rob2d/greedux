@@ -1,3 +1,8 @@
+// NOTE: since material-ui has been deprecated
+//       from template, this Component
+//       must be re-worked to be independent of
+//       it before it can be used as an example!
+
 import React, {Component, PropTypes} from 'react'
 import {Tabs, Tab} from 'material-ui/Tabs'
 import Menu, {MenuItem}from 'material-ui/Menu'
@@ -16,7 +21,6 @@ class LanguageMenu extends Component
         this.classes = context.styleManager.render(Style);
         this.state = { anchorEl : undefined, open : false }
     }
-    static contextTypes = { styleManager : customPropTypes.muiRequired };
     onMenuClick = (event)=>
     {
         this.setState({ anchorEl : event.currentTarget, open : true  });

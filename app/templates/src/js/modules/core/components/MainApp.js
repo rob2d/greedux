@@ -2,19 +2,12 @@ import React, {
     PureComponent,
     PropTypes
 } from 'react'
-
-import {
-    withStyles,
-    createStyleSheet
-} from 'material-ui/styles';
-import { muiRequired } from 'material-ui/utils/customPropTypes'
-import store         from '../../../store'
-import { connect }   from 'react-redux'
+import injectSheet from 'react-jss'
+import { connect } from 'react-redux'
 
 import { refreshWindowDimensions } from './../actions'
 
-
-const styleSheet = createStyleSheet('MainApp',
+const styles =
 {
     appWrapper :
     {
@@ -56,15 +49,14 @@ const styleSheet = createStyleSheet('MainApp',
         height    : '40px',
         textAlign : 'center'
     }
-});
+};
 
 
 class MainApp extends PureComponent
 {
     static contextTypes =
     {
-        store        : PropTypes.object.isRequired,
-        styleManager : muiRequired
+        store : PropTypes.object.isRequired,
     };
     onResizeWindow = ()=>
     {
@@ -113,6 +105,6 @@ const VisibleMainApp = connect(
             dispatch(refreshWindowDimensions())
         }
     })
-)(withStyles(styleSheet)(MainApp));
+)(injectSheet(styles)(MainApp));
 
 export default VisibleMainApp

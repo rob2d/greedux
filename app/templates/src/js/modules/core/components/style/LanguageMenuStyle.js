@@ -1,8 +1,5 @@
-import { createStyleSheet } from 'jss-theme-reactor'
-import baseTheme            from '../../../../baseTheme';
-
-const styleSheet = createStyleSheet('LanguageMenuStyle', (theme) =>
-({
+const styleSheet =
+{
     languageContainer :
     {
         marginLeft    : '12pt',
@@ -27,6 +24,6 @@ const styleSheet = createStyleSheet('LanguageMenuStyle', (theme) =>
         fontWeight : 900,
         marginRight: '-16px'
     }
-}));
+};
 
 export default styleSheet
