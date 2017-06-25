@@ -72,7 +72,7 @@ const AliasesSrc = require('./build-config/aliases.json');
 const Aliases = Object.keys(AliasesSrc)
         .reduce((aliases,a)=>
         {
-            aliases.push({ src:Aliases[a], expose:a });
+            return aliases.concat({ src:AliasesSrc[a], expose:a });
         }, []);
 
 // assign flag values based on Flags
