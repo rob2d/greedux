@@ -5,7 +5,7 @@
   "description": "Time to get to making stuff!",
   "main": "app.js",
   "scripts": {
-      "start": "gulp build && node app.js",
-      "dev": "gulp && node app.js --dev"
+      "start": "gulp build && node app",
+      "dev": "gulp && node app --dev"
     }
 }
