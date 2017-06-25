@@ -25,16 +25,16 @@ A modular, clean and modern workflow template for React/Redux development!
 3) navigate to a folder pointing to your new project and run `yo react-redux-gulp`, which should install all build and server dependencies to get started on your new project!
 
 ## Deployment ##
-/
-#### Packaging the app ###
+
+### Packaging the app ###
 simply run `gulp build` , and your server and assets are ready to go.
 
-#### Optional Flags ###
+#### Optional Flags ####
 - **success_notice**  : Display an OS-level success notice
 - **error_sound** : Whether to play an OS error sound when compile error happens
 - **build_js_debug** : Create a production level build, but do not strip debug messages from console.
 
-### Running the Node/Express Server ###
+#### Running the Node/Express Server ####
 
 Note: You must first build the app by calling `gulp build`.
 
