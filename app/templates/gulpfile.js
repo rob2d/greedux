@@ -32,6 +32,7 @@ var gulp          = require('gulp'),
     liveReactLoad = require('livereactload'),
     liveReload    = require('gulp-server-livereload');
 
+// build configuration
 
 const Flags =
 {
@@ -58,9 +59,21 @@ const Flags =
     build_js_debug    :
     {
         defaultValue : false,
-        description  : 'Whether or not to include source maps in Javascript release builds'
+        description  : 'Whether or not to include source ' +
+                        'maps in Javascript release builds'
     }
 };
+
+// set up build paths config
+const Paths   = require('./build-config/paths.json');
+
+// set up module aliases
+const AliasesSrc = require('./build-config/aliases.json');
+const Aliases = Object.keys(AliasesSrc)
+        .reduce((aliases,a)=>
+        {
+            aliases.push({ src:Aliases[a], expose:a });
+        }, []);
 
 // assign flag values based on Flags
 let FlagValues = {};
@@ -70,34 +83,10 @@ Object.keys(Flags).forEach((flag)=>
     {
         FlagValues[flag] = Flags[flag].defaultValue;
     }
-    else
-    {
-        FlagValues[flag] = argv[flag];
-    }
+    else { FlagValues[flag] = argv[flag]; }
 });
 
-const path =
-{
-    HTML           : 'src/index.html',
-    MINIFIED_OUT   : 'build.min.js',
-    BUILDJS_OUT    : 'build.js',
-    DEST           : 'build',
-    DEST_PROD     : 'dist/prod',
-    DEST_DEV       : 'dist/dev',
-    DIST_SRC_FILES :
-    [
-        './dist/dev/**/*',
-        '!dist/dev/index.html',
-        '!./**/*.js',
-        '!./dist/dev/css/**/*.css',
-        '!./**/*.+(png|jpg|gif|svg)'
-    ],
-    ENTRY_POINT         : './src/js/clientApp.js',
-    ENTRY_FOLDER        : 'src/js',
-    VERSION_CONFIG_FILE : 'src/js/versionInfo.js',
-    VERSION_CONFIG_DIR  : 'src/js/'
-},
-BABELIFY_CONFIG =
+const BABELIFY_CONFIG =
 {
     extensions : [ '.js', '.jsx' ],
     presets    : [ 'es2015', 'react', 'stage-2', 'stage-3' ],
@@ -106,16 +95,18 @@ BABELIFY_CONFIG =
         'transform-remove-strict-mode',
         'transform-decorators-legacy',
         'add-module-exports',
-        'react-hot-loader/babel'
+        'react-hot-loader/babel',
+        ['module-alias', Aliases]
     ]
-},
-WATCHIFY_CONFIGURATION =
+};
+
+const WATCHIFY_CONFIG =
 {
     poll  : true,
     ignoreWatch: ['**/node_modes/**']
 };
 
-let versionFileContent = fs.readFileSync(path.VERSION_CONFIG_FILE, 'utf8'),
+let versionFileContent = fs.readFileSync(Paths.VERSION_CONFIG_FILE, 'utf8'),
     updateCount  = 0,
     successNoticeCount = 0,
     timeProcessedCount = 0,
@@ -124,7 +115,7 @@ let versionFileContent = fs.readFileSync(path.VERSION_CONFIG_FILE, 'utf8'),
 
 let getLatestVersionStrInFile = ()=>
 {
-    let fileContent = fs.readFileSync(path.VERSION_CONFIG_FILE, 'utf8');
+    let fileContent = fs.readFileSync(Paths.VERSION_CONFIG_FILE, 'utf8');
     if(fileContent !== null && fileContent.match(/VERSION[\s]*:[\s]*'([\d]+)[\.]([\d]+)[\.]([\d]+)'/gi))
     {
         return fileContent.match(/VERSION[\s]*:[\s]*'([\d]+)[\.]([\d]+)[\.]([\d]+)'/gi)[0];
@@ -135,7 +126,11 @@ let Notices =
 {
     buildSuccess (p)
     {
-        notifier.notify({ title : 'Build Successful', message : p.message, sound : false });
+        notifier.notify(
+        {
+            title   : 'Build Successful',
+            message : p.message, sound : false
+        });
     },
     /**
      * @param p
@@ -157,9 +152,10 @@ let Notices =
     {
         notifier.notify(
         {
-            title   : 'Watching ' + path.DEST_DEV,
-            message : 'Ready to watch for file changes to build into ' + path.DEST_PROD,
-            sound : false
+            title   : 'Watching ' + Paths.DEST_DEV,
+            message : 'Ready to watch for file changes to ' +
+                      'build into ' + Paths.DEST_PROD,
+            sound   : false
         });
     }
 };
@@ -174,12 +170,12 @@ let Log =
         {
             let dirNameIndex = file.toLowerCase().indexOf(__dirname.toLowerCase());
             return '['+(i+1)+'] '+((dirNameIndex!=-1) ?
-                    file.substr(dirNameIndex+__dirname.length+1+path.ENTRY_FOLDER.length) :
+                    file.substr(dirNameIndex+__dirname.length+1+Paths.ENTRY_FOLDER.length) :
                     file).bold.magenta;
         });
         console.log('\nFile changes detected ->\n', files.join('\n'), '\n');
 
-        var updatedAt = new Date(),
+        var updatedAt        = new Date(),
             updatedAtDisplay = `[${updatedAt.getHours()}:${updatedAt.getMinutes()}:${(updatedAt.getMilliseconds()+'').substr(0,2)}]`.gray;
 
         if(updateCountShown)
@@ -192,7 +188,7 @@ let Log =
     watchStarted ()
     {
         console.log(`Getting ready to watching for file changes to build to 
-                [${path.DEST_PROD.bold}]\n`);
+                [${Paths.DEST_PROD.bold}]\n`);
     },
     startNotice (mode)
     {
@@ -202,7 +198,6 @@ let Log =
             horizontalLayout: 'default',
             verticalLayout: 'default'
         });
-
 
         console.log(appPrintOut);
         console.log(`\t\tSource Code Builder\n`);
@@ -235,11 +230,10 @@ let Log =
     listFlags ()
     {
         let flagTable = new Table(
-            {
-                head : ['flag'.gray, 'status'.gray, 'description'.gray],
-                colWidths: [20, 10, 60]
-            });
-
+        {
+            head : ['flag'.gray, 'status'.gray, 'description'.gray],
+            colWidths: [20, 10, 60]
+        });
 
         for(var flagName in FlagValues)
         {
@@ -313,7 +307,7 @@ function scripts(p)
     let b = browserify(
         {
             extensions   : ['.js', '.json', '.es6', '.jsx'],
-            entries      : [path.ENTRY_POINT],
+            entries      : [Paths.ENTRY_POINT],
             global       : true,
             debug        : _global.DEV_MODE,
             cache        : {},
@@ -322,7 +316,7 @@ function scripts(p)
         }).transform(babelify.configure(BABELIFY_CONFIG)).transform(envify({ NODE_ENV: 'development' }));
 
     // wrap in watchify
-    if(watch) { b = watchify(b, WATCHIFY_CONFIGURATION); }
+    if(watch) { b = watchify(b, WATCHIFY_CONFIG); }
 
     b.on('error', (err)=>
     {
@@ -347,11 +341,11 @@ function scripts(p)
             Notices.errorBuilding({ message : err.message });
         });;
 
-        stream = stream.pipe(source(path.BUILDJS_OUT)); //bundle files into build.js
+        stream = stream.pipe(source(Paths.BUILDJS_OUT)); //bundle files into build.js
 
         if(watch && rebuild)
         {
-            return stream.pipe(gulp.dest(path.DEST_DEV));
+            return stream.pipe(gulp.dest(Paths.DEST_DEV));
         }
         else
         {
@@ -402,7 +396,7 @@ gulp.task('dev-server', ['dev'], function()
 {
     global.DEV_MODE = true;
     Log.startNotice('dev');
-    return gulp.src(path.DEST_DEV)
+    return gulp.src(Paths.DEST_DEV)
         .pipe(liveReload(
         {
             host: '0.0.0.0',
@@ -415,39 +409,39 @@ gulp.task('dev-server', ['dev'], function()
 
 gulp.task('html-ref-and-concat-css', function()
 {
-    return gulp.src(path.DEST_DEV + '/index.html')
+    return gulp.src(Paths.DEST_DEV + '/index.html')
         .pipe(gulpIf('*.css', cleanCss()))  // minify css files
         .pipe(useref())                     // for html build file markup
-        .pipe(gulp.dest(path.DEST_PROD));
+        .pipe(gulp.dest(Paths.DEST_PROD));
 });
 
 gulp.task('minify-images', function()
 {
-    return gulp.src(path.DEST_DEV + '/**/*.+(png|jpg|gif|svg)')
+    return gulp.src(Paths.DEST_DEV + '/**/*.+(png|jpg|gif|svg)')
         .pipe(imagemin())
-        .pipe(gulp.dest(path.DEST_PROD));
+        .pipe(gulp.dest(Paths.DEST_PROD));
 });
 
 gulp.task('copy-extra-to-build', function()
 {
-    return gulp.src(path.DIST_SRC_FILES)
-        .pipe(gulp.dest(path.DEST_PROD));
+    return gulp.src(Paths.DIST_DEV_FILES)
+        .pipe(gulp.dest(Paths.DEST_PROD));
 });
 
 gulp.task('check-for-version-bump', function()
 {
     // first make sure version built is up to date before bumping twice
-    let versionFileContent = fs.readFileSync(path.VERSION_CONFIG_FILE, 'utf8');
+    let versionFileContent = fs.readFileSync(Paths.VERSION_CONFIG_FILE, 'utf8');
     let versionShouldBeBumped = (versionFileContent.indexOf(latestVersionBuilt) != -1) && FlagValues.version_bump;
     if(versionShouldBeBumped)
     {
-        return gulp.src([path.VERSION_CONFIG_FILE])
+        return gulp.src([Paths.VERSION_CONFIG_FILE])
             .pipe(replace(/VERSION[\s]*:[\s]*'([\d]+)[\.]([\d]+)[\.]([\d]+)'/gi,
                 (vString, major, minor, patch)=>
                 {
                     let nextVersion = `VERSION : '${major}.${minor}.${parseInt(patch)+1}'`;
                     return (latestVersion = nextVersion, nextVersion);
-                })).pipe(gulp.dest(path.VERSION_CONFIG_DIR));
+                })).pipe(gulp.dest(Paths.VERSION_CONFIG_DIR));
     }
     else return;
 });
@@ -478,7 +472,7 @@ gulp.task('build',
         return scripts({ watch : false })
             .pipe(buffer())
             .pipe(uglify().on('error', gulpUtil.log))
-            .pipe(gulp.dest(path.DEST_PROD));
+            .pipe(gulp.dest(Paths.DEST_PROD));
     }
     else
     {
@@ -486,7 +480,7 @@ gulp.task('build',
             .pipe(buffer())
             .pipe(uglify().on('error', gulpUtil.log))
             .pipe(stripDebug())                         //remove console logging
-            .pipe(gulp.dest(path.DEST_PROD));
+            .pipe(gulp.dest(Paths.DEST_PROD));
     }
 });
 

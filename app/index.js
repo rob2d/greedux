@@ -105,6 +105,7 @@ module.exports = class extends BaseGenerator
             'babel-plugin-transform-decorators-legacy@^1.3.4',
             'babel-plugin-transform-object-assign@^6.22.0',
             'babel-plugin-transform-remove-strict-mode@^0.0.2',
+            'babel-plugin-module-alias@^1.6.0',
             'babel-polyfill@^6.23.0',
             'babel-preset-es2015@^6.9.0',
             'babel-preset-react@^6.23.0',

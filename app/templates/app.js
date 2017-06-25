@@ -19,8 +19,9 @@ let express   = require('express'),
     https     = require('https'),
     argv      = require('yargs').argv,        //grabs our app arguments
     colors    = require('colors'),
+    Paths     = require('./build-config/paths'),
     RUNTIME   = { PORT : argv.port || 3002 },
-    codeDir   = argv.dev ? 'dist/dev' : 'dist/prod',
+    codeDir   = argv.dev ? Paths.DEST_DEV : Paths.DEST_PROD,
     SSL       = (()=>
     {
         if(argv.https)
@@ -71,7 +72,10 @@ app.use(xDomainMiddleware);
 
 console.log(__dirname + '/' + codeDir);
 
-app.get('/',                (req,res)=>{ res.render(__dirname + '/' + codeDir + '/index.html'); });
+app.get('/', (req,res)=>
+{
+    res.render(__dirname + '/' + codeDir + '/index.html');
+});
 
 
 app.get('*', (req, res)=>

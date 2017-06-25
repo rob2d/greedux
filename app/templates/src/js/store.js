@@ -2,10 +2,10 @@ import { applyMiddleware, createStore } from 'redux'
 import thunk  from 'redux-thunk'
 import promise from 'redux-promise-middleware'
 import reducer from './reducers'
-import localizer from './modules/core/middleware/localizer'
+import localizer from 'middleware/localizer'
 import logger from 'redux-logger'
 import { routerMiddleware } from 'react-router-redux'
-import appHistory from './tools/appHistory'
+import appHistory from 'tools/appHistory'
 
 const middleware = process.env.NODE_ENV == 'production' ?
                         applyMiddleware(

@@ -25,7 +25,7 @@ A modular, clean and modern workflow template for React/Redux development!
 3) navigate to a folder pointing to your new project and run `yo react-redux-gulp`, which should install all build and server dependencies to get started on your new project!
 
 ## Deployment ##
-
+/
 #### Packaging the app ###
 simply run `gulp build` , and your server and assets are ready to go.
 
@@ -35,7 +35,6 @@ simply run `gulp build` , and your server and assets are ready to go.
 - **build_js_debug** : Create a production level build, but do not strip debug messages from console.
 
 ### Running the Node/Express Server ###
-
 
 Note: You must first build the app by calling `gulp build`.
 
@@ -67,6 +66,17 @@ without re-running the dev server . simply run `gulp dev` and then in another co
 - **error_sound** : Whether to play an OS error sound when compile error happens
 - **build_js_debug** : Create a production level build, but do not strip debug messages from console.
 
+## Build Configuration ##
+
+#### Configuring Module Aliases ####
+Modules can be aliased to use as if they were a root npm module by specifying
+them within the `aliases.json` located in the `build-config` folder.
+
+#### Configuring Build Paths/Folder Structure ####
+Configure the build structure of your app via `paths.json` located in 
+the `build-config` folder. This includes where the source files, distribution files
+and javascript can be found and built to. Defaults are already specified but can be
+overridden.
 
 ## Roadmap ##
 
@@ -77,9 +87,7 @@ without re-running the dev server . simply run `gulp dev` and then in another co
 - Tests
 
 
-## *Important Note* ##
-This repo is an active work in progress; Please keep that in mind.
-
-With that said, PR Requests are always welcome! 
+## *Note* ##
+PR Requests are always welcome! 
 
 Thanks.
