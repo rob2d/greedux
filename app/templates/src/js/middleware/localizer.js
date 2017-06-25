@@ -1,5 +1,5 @@
 import localizationSetter from 'tools/localizationSetter'
-import { SET_LANGUAGE } from '../actionTypes'
+import { SET_LANGUAGE } from 'modules/core/actionTypes'
 
 const localizer = store => next => action =>
 {
