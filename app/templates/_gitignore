@@ -1,3 +1,4 @@
 dist/src/*.js
 dist/build/*.js
 dist/build/**
+node_modules
