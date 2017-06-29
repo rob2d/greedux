@@ -57,8 +57,6 @@ If you would like to run without a hot reload server in dev mode, static changes
 without re-running the dev server . simply run `gulp dev` and then in another console `node app --dev` 
 (port can be specified as param but default is `3002`).
 
-(note: currently Live Reload still runs. Disabling this is in roadmap below)
-
 #### Optional Flags ###
 
 - **version_bump** : Bump patch version on successful builds (default false)
@@ -81,9 +79,7 @@ overridden.
 ## Roadmap ##
 
 - npm scripts for developing and launching http/https server simultaneously
-- Make LiveServer optional while developing
 - Display an example of easy localization/language tools
-- Fill in actual commonly used Webpack features such as CSS imports
 - Tests
 
 

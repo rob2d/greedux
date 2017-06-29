@@ -1,6 +1,6 @@
 {
   "name": "generator-react-redux-gulp",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "A clean workspace/workflow template supporting React, Redux, JSS, Live Reload as well as non Live Reload express server to create maintainable modular front-end web apps",
   "dependencies": {
     "yeoman-generator": "^1.0.0"
@@ -10,8 +10,10 @@
   ],
   "keywords": [
     "reactjs",
+    "react.js",
     "react",
     "redux",
+    "router",
     "jss",
     "gulp",
     "webpack",
@@ -19,7 +21,8 @@
     "deployment",
     "express",
     "yeoman-generator",
-    "template"
+    "template",
+    "server"
   ],
   "repository": "https://github.com/rob2d/generator-react-redux-gulp",
   "author": "Robert Concepcion III",
