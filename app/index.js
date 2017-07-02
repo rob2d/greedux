@@ -127,6 +127,7 @@ module.exports = class extends BaseGenerator
             'history@^4.6.2',
             'livereactload@^4.0.0-beta.2',
             'node-notifier@^5.1.2',
+            'prop-types@^15.5.10',
             'react@^15.6.1',
             'react-dom@^15.6.1',
             'react-hot-loader@^3.0.0-beta.6',

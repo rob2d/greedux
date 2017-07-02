@@ -1,7 +1,5 @@
-import React, {
-    PureComponent,
-    PropTypes
-} from 'react'
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import injectSheet from 'react-jss'
 import connect from 'react-redux/lib/connect/connect'
 

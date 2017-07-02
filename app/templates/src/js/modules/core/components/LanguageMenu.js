@@ -3,7 +3,8 @@
 //       must be re-worked to be independent of
 //       it before it can be used as an example!
 
-import React, {Component, PropTypes} from 'react'
+import React, {Component} from 'react'
+import PropTypes from 'prop-types'
 import {Tabs, Tab} from 'material-ui/Tabs'
 import Menu, {MenuItem}from 'material-ui/Menu'
 import IconButton      from 'material-ui/IconButton'
