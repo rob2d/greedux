@@ -35,34 +35,40 @@ var gulp          = require('gulp'),
 // build configuration
 
 const Flags =
+{
+    version_bump      :
     {
-        version_bump      :
-            {
-                defaultValue : true,
-                description  : 'Whether or not to bump versions on successive updates when building'
-            },
-        success_notice    :
-            {
-                defaultValue : true,
-                description  : 'Displays a success notice in the OS when build is successful'
-            },
-        error_notice :
-            {
-                defaultValue : true,
-                description  : 'Displays an error notice in the OS when a build fails'
-            },
-        error_sound       :
-            {
-                defaultValue : false,
-                description  : 'Play a sound when there is an error'
-            },
-        build_js_debug    :
-            {
-                defaultValue : false,
-                description  : 'Whether or not to include source ' +
-                'maps in Javascript release builds'
-            }
-    };
+        defaultValue : true,
+        description  : 'Whether or not to bump versions on successive updates when building'
+    },
+    success_notice    :
+    {
+        defaultValue : true,
+        description  : 'Displays a success notice in the OS when build is successful'
+    },
+    error_notice :
+    {
+        defaultValue : true,
+        description  : 'Displays an error notice in the OS when a build fails'
+    },
+    error_sound       :
+    {
+        defaultValue : false,
+        description  : 'Play a sound when there is an error'
+    },
+    build_js_debug    :
+    {
+        defaultValue : false,
+        description  : 'Whether or not to include source ' +
+        'maps in Javascript release builds'
+    },
+    export_standalone   :
+    {
+        defaultValue : false,
+        description  : 'Automatically generate a build folder corresponding to the time you created' +
+        'your package via a builds/[current_date] folder/'
+    }
+};
 
 // set up build paths config
 const Paths   = require('./build-config/paths.json');
@@ -70,41 +76,41 @@ const Paths   = require('./build-config/paths.json');
 // set up module aliases
 const AliasesSrc = require('./build-config/aliases.json');
 const Aliases = Object.keys(AliasesSrc)
-    .reduce((aliases,a)=>
+        .reduce((aliases,a)=>
     {
         return aliases.concat({ src:AliasesSrc[a], expose:a });
-    }, []);
+}, []);
 
 // assign flag values based on Flags
 let FlagValues = {};
 Object.keys(Flags).forEach((flag)=>
 {
     if(typeof argv[flag] === 'undefined')
-    {
-        FlagValues[flag] = Flags[flag].defaultValue;
-    }
-    else { FlagValues[flag] = argv[flag]; }
+{
+    FlagValues[flag] = Flags[flag].defaultValue;
+}
+else { FlagValues[flag] = argv[flag]; }
 });
 
 const BABELIFY_CONFIG =
-    {
-        extensions : [ '.js', '.jsx' ],
-        presets    : [ 'es2015', 'react', 'stage-2', 'stage-3' ],
-        plugins :
-            [
-                'transform-remove-strict-mode',
-                'transform-decorators-legacy',
-                'add-module-exports',
-                'react-hot-loader/babel',
-                ['module-alias', Aliases]
-            ]
-    };
+{
+    extensions : [ '.js', '.jsx' ],
+    presets    : [ 'es2015', 'react', 'stage-2', 'stage-3' ],
+    plugins :
+        [
+            'transform-remove-strict-mode',
+            'transform-decorators-legacy',
+            'add-module-exports',
+            'react-hot-loader/babel',
+            ['module-alias', Aliases]
+        ]
+};
 
 const WATCHIFY_CONFIG =
-    {
-        poll  : true,
-        ignoreWatch: ['**/node_modes/**']
-    };
+{
+    poll  : true,
+    ignoreWatch: ['**/node_modes/**']
+};
 
 let versionFileContent = fs.readFileSync(Paths.VERSION_CONFIG_FILE, 'utf8'),
     updateCount  = 0,
@@ -123,175 +129,175 @@ let getLatestVersionStrInFile = ()=>
 };
 
 let Notices =
+{
+    buildSuccess (p)
     {
-        buildSuccess (p)
-        {
-            notifier.notify(
-                {
-                    title   : 'Build Successful',
-                    message : p.message, sound : false
-                });
-        },
-        /**
-         * @param p
-         * @param p.message
-         */
-        errorBuilding (p)
-        {
-            if(FlagValues.error_notices)
+        notifier.notify(
             {
-                notifier.notify(
-                    {
-                        title   : 'Error Building',
-                        message : p.message,
-                        sound   : FlagValues.error_sound
-                    });
-            }
-        },
-        watchingFiles ()
+                title   : 'Build Successful',
+                message : p.message, sound : false
+            });
+    },
+    /**
+     * @param p
+     * @param p.message
+     */
+    errorBuilding (p)
+    {
+        if(FlagValues.error_notices)
         {
             notifier.notify(
                 {
-                    title   : 'Watching ' + Paths.DEST_DEV,
-                    message : 'Ready to watch for file changes to ' +
-                    'build into ' + Paths.DEST_PROD,
-                    sound   : false
+                    title   : 'Error Building',
+                    message : p.message,
+                    sound   : FlagValues.error_sound
                 });
         }
-    };
+    },
+    watchingFiles ()
+    {
+        notifier.notify(
+            {
+                title   : 'Watching ' + Paths.DEST_DEV,
+                message : 'Ready to watch for file changes to ' +
+                'build into ' + Paths.DEST_PROD,
+                sound   : false
+            });
+    }
+};
 
 /** various logging functions */
 let Log =
+{
+    updateBuild (files, updateCountShown)
     {
-        updateBuild (files, updateCountShown)
-        {
-            if(!Array.isArray(files)) { files = Array.from([files]); }
-            files = files.map((file,i)=>
+        if(!Array.isArray(files)) { files = Array.from([files]); }
+        files = files.map((file,i)=>
             {
                 let dirNameIndex = file.toLowerCase().indexOf(__dirname.toLowerCase());
-                return '['+(i+1)+'] '+((dirNameIndex!=-1) ?
-                        file.substr(dirNameIndex+__dirname.length+1+Paths.ENTRY_FOLDER.length) :
-                        file).bold.magenta;
-            });
-            console.log('\nFile changes detected ->\n', files.join('\n'), '\n');
+        return '['+(i+1)+'] '+((dirNameIndex!=-1) ?
+                file.substr(dirNameIndex+__dirname.length+1+Paths.ENTRY_FOLDER.length) :
+                file).bold.magenta;
+    });
+        console.log('\nFile changes detected ->\n', files.join('\n'), '\n');
 
-            var updatedAt        = new Date(),
-                updatedAtDisplay = `[${updatedAt.getHours()}:${updatedAt.getMinutes()}:${(updatedAt.getMilliseconds()+'').substr(0,2)}]`.gray;
+        var updatedAt        = new Date(),
+            updatedAtDisplay = `[${updatedAt.getHours()}:${updatedAt.getMinutes()}:${(updatedAt.getMilliseconds()+'').substr(0,2)}]`.gray;
 
-            if(updateCountShown)
-            {
-                console.log(updatedAtDisplay + 'Updated source files ' +
-                    (++updateCount + '').bold.magenta + ' time' +
-                    ((updateCount == 1) ? '' : 's') + '. \n');
-            }
-        },
-        watchStarted ()
+        if(updateCountShown)
         {
-            console.log(`Getting ready to watching for file changes to build to 
+            console.log(updatedAtDisplay + 'Updated source files ' +
+                (++updateCount + '').bold.magenta + ' time' +
+                ((updateCount == 1) ? '' : 's') + '. \n');
+        }
+    },
+    watchStarted ()
+    {
+        console.log(`Getting ready to watching for file changes to build to 
                 [${Paths.DEST_PROD.bold}]\n`);
-        },
-        startNotice (mode)
-        {
-            let appPrintOut = '\n' + figlet.textSync(pkg.name,
-                    {
-                        font: 'Slant',
-                        horizontalLayout: 'default',
-                        verticalLayout: 'default'
-                    });
-
-            console.log(appPrintOut);
-            console.log(`\t\tSource Code Builder\n`);
-            console.log(`> Running in ${mode == 'build' ? 'Build':'Dev'} Mode\n`);
-            console.log('[ gulp tasks: build \u2022 dev-server (default) \u2022 dev ]\n');
-
-            Log.listFlags();
-
-            if(mode != 'build')
-            {
-                console.log('Note : Initial build may take a bit of time on the first run before cache-ing...\n');
-            }
-        },
-        buildMessage (message)
-        {
-            if(latestVersionBuilt == getLatestVersionStrInFile())
-            {
-                console.log(message + '\n');
-            }
-        },
-        errorWhileRebuilding (err)
-        {
-            var errorAt = new Date(),
-                errorAtDisplay = `${errorAt.getHours()}:${errorAt.getMinutes()}.${errorAt.getMilliseconds()}`;
-            console.log(`${errorAtDisplay} ${`error occurred during build:\n\t${err.message.red.bold}\n`}`);
-            console.log(`Even though building may have finished successfully, ${''
-                }there was an error compiling the app sourcecode. ${''
-                }This may lead to errors\n`);
-        },
-        listFlags ()
-        {
-            let flagTable = new Table(
+    },
+    startNotice (mode)
+    {
+        let appPrintOut = '\n' + figlet.textSync(pkg.name,
                 {
-                    head : ['flag'.gray, 'status'.gray, 'description'.gray],
-                    colWidths: [20, 10, 60]
+                    font: 'Slant',
+                    horizontalLayout: 'default',
+                    verticalLayout: 'default'
                 });
 
-            for(var flagName in FlagValues)
-            {
-                let flagValue       = FlagValues[flagName],
-                    flagDescription = Flags[flagName].description;
+        console.log(appPrintOut);
+        console.log(`\t\tSource Code Builder\n`);
+        console.log(`> Running in ${mode == 'build' ? 'Build':'Dev'} Mode\n`);
+        console.log('[ gulp tasks: build \u2022 dev-server (default) \u2022 dev ]\n');
 
-                if(flagValue)
-                {
-                    flagValue= flagValue.toString();
-                }
-                else
-                {
-                    flagValue = flagValue.toString();
-                }
+        Log.listFlags();
 
-                flagTable.push([flagName, flagValue, flagDescription]);
-            }
-            console.log(flagTable.toString().gray);
-            console.log('\n');
+        if(mode != 'build')
+        {
+            console.log('Note : Initial build may take a bit of time on the first run before cache-ing...\n');
         }
-    };
+    },
+    buildMessage (message)
+    {
+        if(latestVersionBuilt == getLatestVersionStrInFile())
+        {
+            console.log(message + '\n');
+        }
+    },
+    errorWhileRebuilding (err)
+    {
+        var errorAt = new Date(),
+            errorAtDisplay = `${errorAt.getHours()}:${errorAt.getMinutes()}.${errorAt.getMilliseconds()}`;
+        console.log(`${errorAtDisplay} ${`error occurred during build:\n\t${err.message.red.bold}\n`}`);
+        console.log(`Even though building may have finished successfully, ${''
+            }there was an error compiling the app sourcecode. ${''
+            }This may lead to errors\n`);
+    },
+    listFlags ()
+    {
+        let flagTable = new Table(
+            {
+                head : ['flag'.gray, 'status'.gray, 'description'.gray],
+                colWidths: [20, 10, 60]
+            });
+
+        for(var flagName in FlagValues)
+        {
+            let flagValue       = FlagValues[flagName],
+                flagDescription = Flags[flagName].description;
+
+            if(flagValue)
+            {
+                flagValue= flagValue.toString();
+            }
+            else
+            {
+                flagValue = flagValue.toString();
+            }
+
+            flagTable.push([flagName, flagValue, flagDescription]);
+        }
+        console.log(flagTable.toString().gray);
+        console.log('\n');
+    }
+};
 
 let Events =
+{
+    codebaseUpdated (ms)
     {
-        codebaseUpdated (ms)
+        if(updateCount == 0)    // fix for initial build
         {
-            if(updateCount == 0)    // fix for initial build
+            latestVersionBuilt = getLatestVersionStrInFile();
+            updateCount++;
+        }
+        if((latestVersionBuilt == getLatestVersionStrInFile()) && successNoticeCount <= updateCount)
+        {
+            successNoticeCount += 1;
+            let version = getLatestVersionStrInFile().match(/([\d]+)[\.]([\d]+)[\.]([\d]+)/gi)[0];
+            let getMessage = (osNotice)=>
             {
-                latestVersionBuilt = getLatestVersionStrInFile();
-                updateCount++;
-            }
-            if((latestVersionBuilt == getLatestVersionStrInFile()) && successNoticeCount <= updateCount)
-            {
-                successNoticeCount += 1;
-                let version = getLatestVersionStrInFile().match(/([\d]+)[\.]([\d]+)[\.]([\d]+)/gi)[0];
-                let getMessage = (osNotice)=>
-                {
-                    let seconds = ((parseInt(ms)/1000) + ''),
-                        printedVersion = version;
+                let seconds = ((parseInt(ms)/1000) + ''),
+                    printedVersion = version;
 
-                    if(!osNotice)
-                    {
-                        seconds = seconds.yellow.bold;
-                        printedVersion = printedVersion.yellow.bold;
-                        return `Successfully compiled source files in ${seconds} seconds.${''+
-                        ' '}Build file now on version ${printedVersion}`;
-                    }
-                    else { return `v${printedVersion} (${seconds}s)`; }
-                };
-
-                Log.buildMessage(getMessage(false));
-                if(FlagValues.success_notice)
+                if(!osNotice)
                 {
-                    notifier.notify({ title : 'Successful build', message : getMessage(true), sound : false });
+                    seconds = seconds.yellow.bold;
+                    printedVersion = printedVersion.yellow.bold;
+                    return `Successfully compiled source files in ${seconds} seconds.${''+
+                    ' '}Build file now on version ${printedVersion}`;
                 }
+                else { return `v${printedVersion} (${seconds}s)`; }
+            };
+
+            Log.buildMessage(getMessage(false));
+            if(FlagValues.success_notice)
+            {
+                notifier.notify({ title : 'Successful build', message : getMessage(true), sound : false });
             }
         }
-    };
+    }
+};
 
 /**
  *  Builds our javascript code into output; can pass watch var depending on build or dev mode
@@ -323,9 +329,9 @@ function scripts(p)
     b.on('error', (err)=>
     {
         if(watch) { Log.errorWhileRebuilding(err); }
-        else      { Log.errorBuilding(err);        }
-        Notices.errorBuilding({ message : err.message })
-    });
+        else      { Log.errorWhileRebuilding(err);        }
+    Notices.errorBuilding({ message : err.message })
+});
 
     // add a timeout so that updated version registers
     b.on('time',Events.codebaseUpdated);
@@ -339,9 +345,9 @@ function scripts(p)
         stream.on('error', (err)=>
         {
             if(watch) { Log.errorWhileRebuilding(err); }
-            else      { Log.errorBuilding(err); }
-            Notices.errorBuilding({ message : err.message });
-        });
+            else      { Log.errorWhileRebuilding(err); }
+        Notices.errorBuilding({ message : err.message });
+    });
 
         //bundle files into build.js
         stream = stream.pipe(source(Paths.BUILDJS_OUT));
@@ -378,9 +384,9 @@ function scripts(p)
     if(watch)
     {
         return runSequence('check-for-version-bump', ()=>
-        {
-            return getBuildStream(true)
-        });
+            {
+                return getBuildStream(true)
+            });
     }
     else { return getBuildStream(true); }
 };
@@ -439,11 +445,11 @@ gulp.task('check-for-version-bump', function()
     {
         return gulp.src([Paths.VERSION_CONFIG_FILE])
             .pipe(replace(/VERSION[\s]*:[\s]*'([\d]+)[\.]([\d]+)[\.]([\d]+)'/gi,
-                (vString, major, minor, patch)=>
+                    (vString, major, minor, patch)=>
                 {
                     let nextVersion = `VERSION : '${major}.${minor}.${parseInt(patch)+1}'`;
-                    return (latestVersion = nextVersion, nextVersion);
-                })).pipe(gulp.dest(Paths.VERSION_CONFIG_DIR));
+        return (latestVersion = nextVersion, nextVersion);
+    })).pipe(gulp.dest(Paths.VERSION_CONFIG_DIR));
     }
     else return;
 });
@@ -465,25 +471,53 @@ gulp.task('welcome-dev-notice', function()
 gulp.task('build',
     [
         'welcome-build-notice','apply-prod-environment', 'copy-extra-to-build',
-        'html-ref-and-concat-css', 'minify-images'
+        'html-ref-and-concat-css', 'minify-images', 'export-standalone-build'
     ],()=>
+{
+    _global.DEV_MODE = false;
+if(FlagValues.build_js_debug)
+{
+    return scripts({ watch : false })
+        .pipe(buffer())
+        .pipe(uglify().on('error', gulpUtil.log))
+        .pipe(gulp.dest(Paths.DEST_PROD));
+}
+else
+{
+    return scripts({ watch : false })
+        .pipe(buffer())
+        .pipe(uglify().on('error', gulpUtil.log))
+        .pipe(stripDebug())                         //remove console logging
+        .pipe(gulp.dest(Paths.DEST_PROD));
+}
+});
+
+gulp.task('export-standalone-build', ()=>
+{
+    if(FlagValues.export_standalone)
     {
-        _global.DEV_MODE = false;
-        if(FlagValues.build_js_debug)
+        let moment = require('moment'),
+            packageDir = moment(new Date()).format('YYYY-MM-DD-HHmmss');
+
+        if(fs.existsSync(packageDir + '/'))
         {
-            return scripts({ watch : false })
-                .pipe(buffer())
-                .pipe(uglify().on('error', gulpUtil.log))
-                .pipe(gulp.dest(Paths.DEST_PROD));
+            let charSuffix = 'a';
+
+            while(!fs.existsSync(`${packageDir}(${charSuffix})/`))
+            {
+                charSuffix++;
+            }
+            packageDir = `${packageDir}(${charSuffix})`;
         }
-        else
-        {
-            return scripts({ watch : false })
-                .pipe(buffer())
-                .pipe(uglify().on('error', gulpUtil.log))
-                .pipe(stripDebug())                         //remove console logging
-                .pipe(gulp.dest(Paths.DEST_PROD));
-        }
-    });
+        fs.mkdirSync(packageDir);
+
+        let buildDir = `./builds/${packageDir}/`;
+
+        console.log(`Creating an exportable production build at:\n\t${buildDir}`);
+
+        return gulp.src(Paths.BUILD_PACKAGE_SOURCES)
+            .pipe(gulp.dest(buildDir));
+    }
+});
 
 gulp.task('default', ['dev-server']);

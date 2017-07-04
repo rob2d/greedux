@@ -126,6 +126,7 @@ module.exports = class extends BaseGenerator
             'gulp-useref@^3.1.0',
             'history@^4.6.2',
             'livereactload@^4.0.0-beta.2',
+            'moment@^2.18.1',
             'node-notifier@^5.1.2',
             'prop-types@^15.5.10',
             'react@^15.6.1',

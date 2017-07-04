@@ -6,12 +6,21 @@
     "DEST_PROD"      : "dist/prod",
     "DEST_DEV"       : "dist/dev",
     "DIST_DEV_FILES" :
-    [   
+    [
         "./dist/dev/**/*",
         "!dist/dev/index.html",
         "!./**/*.js",
-        "!./dist/dev/css/**/*.css",
         "!./**/*.+(png|jpg|gif|svg)"
+    ],
+    "BUILD_PACKAGE_SOURCES" :
+    [
+        "**/dist/prod/**/*.*",
+        "./app.js",
+        "./package.json"
+    ],
+    "BUILD_PACKAGE_TARGET_ROOT" :
+    [
+        "./builds/xyz"
     ],
     "ENTRY_POINT"         : "./src/js/clientApp.js",
     "ENTRY_FOLDER"        : "src/js",
