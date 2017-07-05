@@ -29,7 +29,7 @@ var gulp          = require('gulp'),
     argv          = require('yargs').argv,
     figlet        = require('figlet'),
     Table         = require('cli-table'),
-    liveReactLoad = null,
+    liveReactLoad = require('livereactload'),
     liveReload    = null;
 
 // build configuration
@@ -400,7 +400,6 @@ gulp.task('dev', function()
 
 gulp.task('dev-server', ['dev'], function()
 {
-    liveReactLoad = require('livereactload');
     liveReload    = require('gulp-server-livereload');
     _global.DEV_MODE = true;
     return gulp.src(Paths.DEST_DEV)
