@@ -15,12 +15,9 @@
     "BUILD_PACKAGE_SOURCES" :
     [
         "**/dist/prod/**/*.*",
+        "!builds/**",
         "./app.js",
         "./package.json"
-    ],
-    "BUILD_PACKAGE_TARGET_ROOT" :
-    [
-        "./builds/xyz"
     ],
     "ENTRY_POINT"         : "./src/js/clientApp.js",
     "ENTRY_FOLDER"        : "src/js",
