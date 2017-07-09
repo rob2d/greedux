@@ -33,6 +33,7 @@ simply run `gulp build` , and your server and assets are ready to go.
 - **success_notice**  : Display an OS-level success notice
 - **error_sound** : Whether to play an OS error sound when compile error happens
 - **build_js_debug** : Create a production level build, but do not strip debug messages from console.
+- **export_standalone** : Automatically generate a build folder corresponding to the time you created your package via a builds/[current_date] folder.
 
 #### Running the Node/Express Server ####
 

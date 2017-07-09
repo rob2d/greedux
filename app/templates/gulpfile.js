@@ -2,7 +2,6 @@
 
 // TODO -> come up with cleaner way of keeping track
 // TODO... of update count, preventing bump-version, etc
-
 var _global = { DEV_MODE : false };
 
 var gulp          = require('gulp'),
@@ -65,8 +64,9 @@ const Flags =
     export_standalone   :
     {
         defaultValue : false,
-        description  : 'Automatically generate a build folder corresponding to the time you created' +
-        'your package via a builds/[current_date] folder/'
+        description  : 'Automatically generate a build folder ' +
+                        'corresponding to the time you created' +
+                        'your package via a builds/[current_date] folder/'
     }
 };
 
@@ -76,27 +76,27 @@ const Paths   = require('./build-config/paths.json');
 // set up module aliases
 const AliasesSrc = require('./build-config/aliases.json');
 const Aliases = Object.keys(AliasesSrc)
-        .reduce((aliases,a)=>
+    .reduce((aliases,a)=>
     {
         return aliases.concat({ src:AliasesSrc[a], expose:a });
-}, []);
+    }, []);
 
 // assign flag values based on Flags
 let FlagValues = {};
 Object.keys(Flags).forEach((flag)=>
 {
     if(typeof argv[flag] === 'undefined')
-{
-    FlagValues[flag] = Flags[flag].defaultValue;
-}
-else { FlagValues[flag] = argv[flag]; }
+    {
+        FlagValues[flag] = Flags[flag].defaultValue;
+    }
+    else { FlagValues[flag] = argv[flag]; }
 });
 
 const BABELIFY_CONFIG =
-{
-    extensions : [ '.js', '.jsx' ],
-    presets    : [ 'es2015', 'react', 'stage-2', 'stage-3' ],
-    plugins :
+    {
+        extensions : [ '.js', '.jsx' ],
+        presets    : [ 'es2015', 'react', 'stage-2', 'stage-3' ],
+        plugins :
         [
             'transform-remove-strict-mode',
             'transform-decorators-legacy',
@@ -104,13 +104,13 @@ const BABELIFY_CONFIG =
             'react-hot-loader/babel',
             ['module-alias', Aliases]
         ]
-};
+    };
 
 const WATCHIFY_CONFIG =
-{
-    poll  : true,
-    ignoreWatch: ['**/node_modes/**']
-};
+    {
+        poll  : true,
+        ignoreWatch: ['**/node_modes/**']
+    };
 
 let versionFileContent = fs.readFileSync(Paths.VERSION_CONFIG_FILE, 'utf8'),
     updateCount  = 0,
@@ -129,42 +129,42 @@ let getLatestVersionStrInFile = ()=>
 };
 
 let Notices =
-{
-    buildSuccess (p)
     {
-        notifier.notify(
-            {
-                title   : 'Build Successful',
-                message : p.message, sound : false
-            });
-    },
-    /**
-     * @param p
-     * @param p.message
-     */
-    errorBuilding (p)
-    {
-        if(FlagValues.error_notices)
+        buildSuccess (p)
         {
             notifier.notify(
                 {
-                    title   : 'Error Building',
-                    message : p.message,
-                    sound   : FlagValues.error_sound
+                    title   : 'Build Successful',
+                    message : p.message, sound : false
+                });
+        },
+        /**
+         * @param p
+         * @param p.message
+         */
+        errorBuilding (p)
+        {
+            if(FlagValues.error_notices)
+            {
+                notifier.notify(
+                    {
+                        title   : 'Error Building',
+                        message : p.message,
+                        sound   : FlagValues.error_sound
+                    });
+            }
+        },
+        watchingFiles ()
+        {
+            notifier.notify(
+                {
+                    title   : 'Watching ' + Paths.DEST_DEV,
+                    message : 'Ready to watch for file changes to ' +
+                    'build into ' + Paths.DEST_PROD,
+                    sound   : false
                 });
         }
-    },
-    watchingFiles ()
-    {
-        notifier.notify(
-            {
-                title   : 'Watching ' + Paths.DEST_DEV,
-                message : 'Ready to watch for file changes to ' +
-                'build into ' + Paths.DEST_PROD,
-                sound   : false
-            });
-    }
-};
+    };
 
 /** various logging functions */
 let Log =
@@ -173,12 +173,12 @@ let Log =
     {
         if(!Array.isArray(files)) { files = Array.from([files]); }
         files = files.map((file,i)=>
-            {
-                let dirNameIndex = file.toLowerCase().indexOf(__dirname.toLowerCase());
-        return '['+(i+1)+'] '+((dirNameIndex!=-1) ?
-                file.substr(dirNameIndex+__dirname.length+1+Paths.ENTRY_FOLDER.length) :
-                file).bold.magenta;
-    });
+        {
+            let dirNameIndex = file.toLowerCase().indexOf(__dirname.toLowerCase());
+            return '['+(i+1)+'] '+((dirNameIndex!=-1) ?
+                    file.substr(dirNameIndex+__dirname.length+1+Paths.ENTRY_FOLDER.length) :
+                    file).bold.magenta;
+        });
         console.log('\nFile changes detected ->\n', files.join('\n'), '\n');
 
         var updatedAt        = new Date(),
@@ -194,7 +194,7 @@ let Log =
     watchStarted ()
     {
         console.log(`Getting ready to watching for file changes to build to 
-                [${Paths.DEST_PROD.bold}]\n`);
+            [${Paths.DEST_PROD.bold}]\n`);
     },
     startNotice (mode)
     {
@@ -236,10 +236,10 @@ let Log =
     listFlags ()
     {
         let flagTable = new Table(
-            {
-                head : ['flag'.gray, 'status'.gray, 'description'.gray],
-                colWidths: [20, 10, 60]
-            });
+        {
+            head : ['flag'.gray, 'status'.gray, 'description'.gray],
+            colWidths: [20, 10, 60]
+        });
 
         for(var flagName in FlagValues)
         {
@@ -263,41 +263,41 @@ let Log =
 };
 
 let Events =
-{
-    codebaseUpdated (ms)
     {
-        if(updateCount == 0)    // fix for initial build
+        codebaseUpdated (ms)
         {
-            latestVersionBuilt = getLatestVersionStrInFile();
-            updateCount++;
-        }
-        if((latestVersionBuilt == getLatestVersionStrInFile()) && successNoticeCount <= updateCount)
-        {
-            successNoticeCount += 1;
-            let version = getLatestVersionStrInFile().match(/([\d]+)[\.]([\d]+)[\.]([\d]+)/gi)[0];
-            let getMessage = (osNotice)=>
+            if(updateCount == 0)    // fix for initial build
             {
-                let seconds = ((parseInt(ms)/1000) + ''),
-                    printedVersion = version;
-
-                if(!osNotice)
+                latestVersionBuilt = getLatestVersionStrInFile();
+                updateCount++;
+            }
+            if((latestVersionBuilt == getLatestVersionStrInFile()) && successNoticeCount <= updateCount)
+            {
+                successNoticeCount += 1;
+                let version = getLatestVersionStrInFile().match(/([\d]+)[\.]([\d]+)[\.]([\d]+)/gi)[0];
+                let getMessage = (osNotice)=>
                 {
-                    seconds = seconds.yellow.bold;
-                    printedVersion = printedVersion.yellow.bold;
-                    return `Successfully compiled source files in ${seconds} seconds.${''+
-                    ' '}Build file now on version ${printedVersion}`;
-                }
-                else { return `v${printedVersion} (${seconds}s)`; }
-            };
+                    let seconds = ((parseInt(ms)/1000) + ''),
+                        printedVersion = version;
 
-            Log.buildMessage(getMessage(false));
-            if(FlagValues.success_notice)
-            {
-                notifier.notify({ title : 'Successful build', message : getMessage(true), sound : false });
+                    if(!osNotice)
+                    {
+                        seconds = seconds.yellow.bold;
+                        printedVersion = printedVersion.yellow.bold;
+                        return `Successfully compiled source files in ${seconds} seconds.${''+
+                        ' '}Build file now on version ${printedVersion}`;
+                    }
+                    else { return `v${printedVersion} (${seconds}s)`; }
+                };
+
+                Log.buildMessage(getMessage(false));
+                if(FlagValues.success_notice)
+                {
+                    notifier.notify({ title : 'Successful build', message : getMessage(true), sound : false });
+                }
             }
         }
-    }
-};
+    };
 
 /**
  *  Builds our javascript code into output; can pass watch var depending on build or dev mode
@@ -330,8 +330,8 @@ function scripts(p)
     {
         if(watch) { Log.errorWhileRebuilding(err); }
         else      { Log.errorWhileRebuilding(err);        }
-    Notices.errorBuilding({ message : err.message })
-});
+        Notices.errorBuilding({ message : err.message })
+    });
 
     // add a timeout so that updated version registers
     b.on('time',Events.codebaseUpdated);
@@ -346,8 +346,8 @@ function scripts(p)
         {
             if(watch) { Log.errorWhileRebuilding(err); }
             else      { Log.errorWhileRebuilding(err); }
-        Notices.errorBuilding({ message : err.message });
-    });
+            Notices.errorBuilding({ message : err.message });
+        });
 
         //bundle files into build.js
         stream = stream.pipe(source(Paths.BUILDJS_OUT));
@@ -384,9 +384,9 @@ function scripts(p)
     if(watch)
     {
         return runSequence('check-for-version-bump', ()=>
-            {
-                return getBuildStream(true)
-            });
+        {
+            return getBuildStream(true)
+        });
     }
     else { return getBuildStream(true); }
 };
@@ -404,13 +404,13 @@ gulp.task('dev-server', ['dev'], function()
     _global.DEV_MODE = true;
     return gulp.src(Paths.DEST_DEV)
         .pipe(liveReload(
-            {
-                host: '0.0.0.0',
-                port: 8080
-                // TODO | configure live reload
-                // TODO | to react to CSS/static asset
-                // TODO | changes. currently just JS
-            }));
+        {
+            host: '0.0.0.0',
+            port: 8080
+            // TODO | configure live reload
+            // TODO | to react to CSS/static asset
+            // TODO | changes. currently just JS
+        }));
 });
 
 gulp.task('html-ref-and-concat-css', function()
@@ -444,11 +444,11 @@ gulp.task('check-for-version-bump', function()
     {
         return gulp.src([Paths.VERSION_CONFIG_FILE])
             .pipe(replace(/VERSION[\s]*:[\s]*'([\d]+)[\.]([\d]+)[\.]([\d]+)'/gi,
-                    (vString, major, minor, patch)=>
+                (vString, major, minor, patch)=>
                 {
                     let nextVersion = `VERSION : '${major}.${minor}.${parseInt(patch)+1}'`;
-        return (latestVersion = nextVersion, nextVersion);
-    })).pipe(gulp.dest(Paths.VERSION_CONFIG_DIR));
+                    return (latestVersion = nextVersion, nextVersion);
+                })).pipe(gulp.dest(Paths.VERSION_CONFIG_DIR));
     }
     else return;
 });
@@ -467,28 +467,39 @@ gulp.task('welcome-dev-notice', function()
     Log.startNotice('dev');
 });
 
-gulp.task('build',
-    [
-        'welcome-build-notice','apply-prod-environment', 'copy-extra-to-build',
-        'html-ref-and-concat-css', 'minify-images', 'export-standalone-build'
-    ],()=>
+gulp.task('create-js-build', function()
 {
     _global.DEV_MODE = false;
-if(FlagValues.build_js_debug)
+    if(FlagValues.build_js_debug)
+    {
+        return scripts({ watch : false })
+            .pipe(buffer())
+            .pipe(uglify().on('error', gulpUtil.log))
+            .pipe(gulp.dest(Paths.DEST_PROD));
+    }
+    else
+    {
+        return scripts({ watch : false })
+            .pipe(buffer())
+            .pipe(uglify().on('error', gulpUtil.log))
+            .pipe(stripDebug())                         //remove console logging
+            .pipe(gulp.dest(Paths.DEST_PROD));
+    }
+});
+
+gulp.task('build', function()
 {
-    return scripts({ watch : false })
-        .pipe(buffer())
-        .pipe(uglify().on('error', gulpUtil.log))
-        .pipe(gulp.dest(Paths.DEST_PROD));
-}
-else
-{
-    return scripts({ watch : false })
-        .pipe(buffer())
-        .pipe(uglify().on('error', gulpUtil.log))
-        .pipe(stripDebug())                         //remove console logging
-        .pipe(gulp.dest(Paths.DEST_PROD));
-}
+    return runSequence(
+        'welcome-build-notice',
+        'apply-prod-environment',
+        [
+            'copy-extra-to-build',
+            'html-ref-and-concat-css',
+            'minify-images',
+            'create-js-build',
+        ],
+        'export-standalone-build'
+    );
 });
 
 gulp.task('export-standalone-build', ()=>
