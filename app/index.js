@@ -140,6 +140,7 @@ module.exports = class extends BaseGenerator
             'react-tap-event-plugin@^2.0.1',
             'recompose@^0.23.5',
             'redux@^3.6.0',
+            'redux-devtools-extension@^2.13.2',
             'redux-logger@^3.0.1',
             'redux-promise-middleware@^4.2.1',
             'redux-thunk@^2.2.0',

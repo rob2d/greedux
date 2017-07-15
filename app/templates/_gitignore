@@ -1,5 +1,5 @@
-dist/src/*.js
-dist/build/*.js
-dist/build/**
+dist/dev/*.js
+dist/prod/*.js
+dist/prod/**
 node_modules
 builds/**
