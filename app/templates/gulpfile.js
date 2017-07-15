@@ -521,6 +521,10 @@ gulp.task('export-standalone-build', ()=>
         }
 
         let buildDir = `./builds/${packageDir}/`;
+        if(!fs.existsSync('./builds/'))
+        {
+            fs.mkdirSync('./builds/');
+        }
         fs.mkdirSync(buildDir);
         console.log(`Creating an exportable production build at:\n\t${buildDir}`);
 
