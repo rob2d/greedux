@@ -21,7 +21,7 @@ class BaseGenerator extends Generator
     constructor(args, opts)
     {
         super(args, opts);
-
+        this.argument('appname', { type: String, required: false })
         this.sourceRoot(path.join(__dirname, 'templates'));
     }
     copyFromTemplate (filePattern, useGlob)
@@ -69,6 +69,10 @@ module.exports = class extends BaseGenerator
         // TODO (2) check for package.json in destination
         // TODO ... path and do not overwrite anything
         // TODO ...  in it except for scripts
+        if (this.options.appname) {
+          fs.mkdirSync(this.options.appname);
+          this.destinationRoot(this.options.appname)
+        }
 
         this.copyFromTemplate('package.json');
 
