@@ -20,10 +20,8 @@ A modular, clean and scalable modern workflow template for React/Redux developme
 ## Installation ##
 
 1) Create a new folder for your new React/Redux project and navigate to that in your terminal/command line. 
-2) Install Gulp Client with the following: `npm install -g gulp-cli`
-3) Add the ability to use Yeoman by running the following: `npm install -g yo`
-4) Install the generator: `npm install -g generator-react-redux-gulp`
-5) Run `yo react-redux-gulp`, which should install all build and server dependencies to get started on your new project!
+2) Install Gulp Client, Yeoman and the generator by running: `npm install -g gulp-cli yo generator-react-redux-gulp`
+3) Run `yo react-redux-gulp`, which should install all build and server dependencies to get started on your new project!
 
 ## Deployment ##
 
