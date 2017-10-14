@@ -1,4 +1,4 @@
-A modular, clean and modern workflow template for React/Redux development!
+A modular, clean and scalable modern workflow template for React/Redux development!
 
 ## Requirements ##
 * NodeJS : 6.x.x - Latest Stable Version
@@ -79,12 +79,9 @@ overridden.
 
 ## Roadmap ##
 
-- npm scripts for developing and launching http/https server simultaneously
-- Display an example of easy localization/language tools
-- Tests
+For information on the things which are currently being focused on, please visit the [ROADMAP.md](ROADMAP.md) file.
 
+## Contribution and Reporting Issues ##
+PR Requests and issues are always welcome! But before doing so, please be sure to briefly look over the guidelines at laid out [CONTRIBUTING.md](CONTRIBUTING.md).
 
-## *Note* ##
-PR Requests are always welcome! 
-
-Thanks.
+Thanks!
