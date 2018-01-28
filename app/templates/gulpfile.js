@@ -141,7 +141,7 @@ const VERSION_NUMBER_CONFIG =
             key: 'v',
             to: ['css'],
         },
-        // appends ?v=VERSION to build.js and CSS files
+        // appends ?v=VERSION to /build.js and CSS files
     };
 
 let Notices =
