@@ -129,14 +129,19 @@ let getLatestVersionStrInFile = ()=>
     }
 };
 
+const SEMVER_STR = getLatestVersionStrInFile().match(/([\d]+)[\.]([\d]+)[\.]([\d]+)/gi)[0]
+
 const VERSION_NUMBER_CONFIG =
     {
-        value: getLatestVersionStrInFile().match(/([\d]+)[\.]([\d]+)[\.]([\d]+)/gi)[0],
+        value: SEMVER_STR,
+        replaces: [
+            ['/build.js', `/build.js?v=${SEMVER_STR}`],
+        ],
         append: {
             key: 'v',
-            to: ['css', 'js'],
+            to: ['css'],
         },
-        // appends ?v=VERSION to CSS and JS files
+        // appends ?v=VERSION to build.js and CSS files
     };
 
 let Notices =
