@@ -25,6 +25,7 @@ var gulp          = require('gulp'),
     notifier      = require('node-notifier'),
     gulpUtil      = require('gulp-util'),
     stripDebug    = require('gulp-strip-debug'),
+    versionNumber = require('gulp-version-number'),
     argv          = require('yargs').argv,
     figlet        = require('figlet'),
     Table         = require('cli-table'),
@@ -127,6 +128,16 @@ let getLatestVersionStrInFile = ()=>
         return fileContent.match(/VERSION[\s]*:[\s]*'([\d]+)[\.]([\d]+)[\.]([\d]+)'/gi)[0];
     }
 };
+
+const VERSION_NUMBER_CONFIG =
+    {
+        value: getLatestVersionStrInFile().match(/([\d]+)[\.]([\d]+)[\.]([\d]+)/gi)[0],
+        append: {
+            key: 'v',
+            to: ['css', 'js'],
+        },
+        // appends ?v=VERSION to CSS and JS files
+    };
 
 let Notices =
     {
@@ -487,6 +498,14 @@ gulp.task('create-js-build', function()
     }
 });
 
+
+gulp.task('append-version-numbers', function()
+{   
+    return gulp.src(Paths.DEST_DEV + '/index.html')
+        .pipe(versionNumber(VERSION_NUMBER_CONFIG))
+        .pipe(gulp.dest(Paths.DEST_PROD))
+});
+
 gulp.task('build', function()
 {
     return runSequence(
@@ -498,6 +517,7 @@ gulp.task('build', function()
             'minify-images',
             'create-js-build',
         ],
+        'append-version-numbers',
         'export-standalone-build'
     );
 });
