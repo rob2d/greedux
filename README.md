@@ -1,5 +1,5 @@
 # Greedux
-A modular, clean and scalable modern workflow template for React/Redux development!
+A modular, clean and scalable modern workflow template for React/Redux development
 
 !["Greedux!"](./greedux_logo.png)
 
