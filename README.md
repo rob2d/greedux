@@ -1,4 +1,8 @@
+# Greedux
 A modular, clean and scalable modern workflow template for React/Redux development!
+
+!["Greedux!"](./greedux_logo.png)
+
 
 ## Requirements ##
 * NodeJS : 6.x.x - Latest Stable Version
@@ -20,8 +24,8 @@ A modular, clean and scalable modern workflow template for React/Redux developme
 ## Installation ##
 
 1) Create a new folder for your new React/Redux project and navigate to that in your terminal/command line. 
-2) Install Gulp Client, Yeoman and the generator by running: `npm install -g gulp-cli yo generator-react-redux-gulp`
-3) Run `yo react-redux-gulp`, which should install all build and server dependencies to get started on your new project!
+2) Install Gulp Client, Yeoman and the generator by running: `npm install -g gulp-cli yo generator-greedux`
+3) Run `yo greedux`, which should install all build and server dependencies to get started on your new project!
 
 ## Deployment ##
 

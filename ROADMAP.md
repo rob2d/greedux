@@ -11,4 +11,3 @@ As of now, the things which will receive prioritization are:
 - Create a generator parameter to instantly augment your Redux application with new empty slices and their boilerplate.
 - Tests
 - Set up a linter (preferably at this point, with styles referenced in AirBNB React style guide as the defaults)
-
