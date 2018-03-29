@@ -1,12 +1,27 @@
 // our base generator file;
 // see Yeoman documentation for details on configuration:
 // http://yeoman.io/authoring/
+
 var path  = require('path');
 var fs = require('fs');
 var Generator = require('yeoman-generator');
+var npmDevDeps = require('./package.json').devDependencies;
+var npmServerDeps = require('./package.json').dependencies;
 
-const ENABLE_GLOBBING = { globOptions : true };
+// Create Yeoman-specific list of
+// server and build dep string arrays
+// for automated npm install
 
+const templateBuildDeps = Object.keys(npmDevDeps).map(
+    (dep)=>(`${dep}@${npmDevDeps[dep]}`)
+);
+
+const templateServerDeps = Object.keys(npmServerDeps).map(
+    (dep)=>(`${dep}@${npmServerDeps[dep]}`)
+);
+
+// options object for globbing
+const ENABLE_GLOBBING_OPTS = { globOptions : true };
 
 /**
  * A class extended directly from
@@ -16,28 +31,23 @@ const ENABLE_GLOBBING = { globOptions : true };
  * [just an opinionated alternative
  * to prefixing helpers with _s]
  */
-class BaseGenerator extends Generator
-{
-    constructor(args, opts)
-    {
+class BaseGenerator extends Generator {
+    constructor(args, opts) {
         super(args, opts);
         this.argument('appname', { type: String, required: false })
         this.sourceRoot(path.join(__dirname, 'templates'));
     }
-    copyFromTemplate (filePattern, useGlob)
-    {
-        let globOptions = Object.assign({}, { dot : true }, useGlob ? ENABLE_GLOBBING : {});
+    copyFromTemplate (filePattern, useGlob) {
+        let globOptions = Object.assign({}, { dot : true }, useGlob ? ENABLE_GLOBBING_OPTS : {});
 
-        if(!useGlob)
-        {
+        if(!useGlob) {
             this.fs.copy(
                 this.templatePath(filePattern),
                 this.destinationPath(filePattern),
                 globOptions
             );
         }
-        else
-        {
+        else {
             //  cut off globs at last major folder
             // (may change the rules here later)
 
@@ -59,10 +69,8 @@ class BaseGenerator extends Generator
     }
 }
 
-module.exports = class extends BaseGenerator
-{
-    copyFiles ()
-    {
+module.exports = class extends BaseGenerator {
+    copyFiles () {
         // TODO (1) make recursive function with array
         // TODO ...  and auto-glob detection
 
@@ -91,79 +99,19 @@ module.exports = class extends BaseGenerator
         this.copyFromTemplate('dist/dev/css/*.*', true);
         this.copyFromTemplate('dist/dev/fonts/**/*.*', true);
 
-        if (!fs.existsSync(this.destinationPath('dist'))){
+        if (!fs.existsSync(this.destinationPath('dist'))) {
             fs.mkdirSync(this.destinationPath('dist'));
         }
 
-        if (!fs.existsSync(this.destinationPath('dist/prod'))){
+        if (!fs.existsSync(this.destinationPath('dist/prod'))) {
             fs.mkdirSync(this.destinationPath('dist/prod'));
         }
     }
-    installBuildDependencies ()
-    {
-        // TODO : trim the fat
-
-        this.npmInstall([
-            'babel-core@^6.24.0',
-            'babel-plugin-add-module-exports@^0.2.1',
-            'babel-plugin-transform-decorators-legacy@^1.3.4',
-            'babel-plugin-transform-object-assign@^6.22.0',
-            'babel-plugin-transform-remove-strict-mode@^0.0.2',
-            'babel-plugin-module-alias@^1.6.0',
-            'babel-polyfill@^6.23.0',
-            'babel-preset-es2015@^6.9.0',
-            'babel-preset-react@^6.23.0',
-            'babel-preset-stage-0@^6.22.0',
-            'babelify@^7.3.0',
-            'browserify@^14.4.0',
-            'events@^1.1.1',
-            'figlet@^1.2.0',
-            'gulp@^3.9.1',
-            'gulp-clean-css@^3.0.3',
-            'gulp-if@2.0.1',
-            'gulp-imagemin@^3.0.1',
-            'gulp-replace@^0.5.4',
-            'gulp-server-livereload@^1.9.2',
-            'gulp-streamify@^1.0.0',
-            'gulp-strip-debug@^1.1.0',
-            'gulp-uglify@^2.0.1',
-            'gulp-useref@^3.1.0',
-            'history@^4.6.2',
-            'livereactload@^4.0.0-beta.2',
-            'moment@^2.18.1',
-            'node-notifier@^5.1.2',
-            'prop-types@^15.5.10',
-            'react@^15.6.1',
-            'react-dom@^15.6.1',
-            'react-hot-loader@^3.0.0-beta.6',
-            'react-localization@^0.0.16',
-            'react-jss@6.1.1',
-            'react-redux@^5.0.5',
-            'react-router-dom@^4.1.1',
-            'react-router-redux@^5.0.0-alpha.4',
-            'react-tap-event-plugin@^2.0.1',
-            'recompose@^0.23.5',
-            'redux@^3.6.0',
-            'redux-devtools-extension@^2.13.2',
-            'redux-logger@^3.0.1',
-            'redux-promise-middleware@^4.2.1',
-            'redux-thunk@^2.2.0',
-            'run-sequence@^1.2.1',
-            'vinyl-buffer@^1.0.0',
-            'vinyl-source-stream@^1.1.0',
-            'watchify@^3.9.0'
-        ], { 'save-dev': true });
+    installBuildDependencies () {
+        this.npmInstall(templateBuildDeps, { 'save-dev': true });
     }
 
-    installServerDependencies ()
-    {
-        this.npmInstall([
-            'cli-table@^0.3.1',
-            'colors@^1.1.2',
-            'ejs@^2.3.4',
-            'envify@^4.0.0',
-            'express@^4.15.2',
-            'yargs@^8.0.1'
-        ], {'save' : true });
+    installServerDependencies () {
+        this.npmInstall(templateServerDeps, {'save' : true });
     }
 };
