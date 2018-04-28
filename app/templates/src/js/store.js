@@ -10,19 +10,17 @@ import appHistory from 'tools/appHistory'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 const middleware = process.env.NODE_ENV == 'production' ?
-                        applyMiddleware(
-                            promise(),
-                            thunk,
-                            localizer,
-                            routerMiddleware(appHistory) //for intercepting navigation actions
-                        ) : composeWithDevTools(
-                            applyMiddleware(
-                                promise(),
-                                thunk,
-                                logger,
-                                localizer,
-                                routerMiddleware(appHistory)
-                            )
-                        );
+    applyMiddleware(
+        promise(),
+        thunk,
+        routerMiddleware(appHistory) //for intercepting navigation actions
+    ) : composeWithDevTools(
+        applyMiddleware(
+            promise(),
+            thunk,
+            logger,
+            routerMiddleware(appHistory)
+        )
+    );
 
 export default createStore(reducer, middleware)

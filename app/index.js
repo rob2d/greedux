@@ -23,6 +23,30 @@ const templateServerDeps = Object.keys(npmServerDeps).map(
 // options object for globbing
 const ENABLE_GLOBBING_OPTS = { globOptions : true };
 
+const templateSourcePaths = [{
+        pattern : 'gulpfile.js',
+        useGlob : false
+    }, {
+        pattern : 'app.js',
+        useGlob : false
+    }, {
+        pattern : 'build-config/*.*',
+        useGlob : true
+    }, {
+        pattern : 'src/js/**/*.*',
+        useGlob : true
+    },{
+        pattern : 'dist/dev/index.html',
+        useGlob : false
+    }, {
+        pattern : 'dist/dev/css/**/*.*',
+        useGlob : true
+    }, { 
+        pattern : 'dist/dev/css/*.*',
+        useGlob : true
+    },
+];
+
 /**
  * A class extended directly from
  * a generator but not imported;
@@ -77,6 +101,7 @@ module.exports = class extends BaseGenerator {
         // TODO (2) check for package.json in destination
         // TODO ... path and do not overwrite anything
         // TODO ...  in it except for scripts
+
         if (this.options.appname) {
           fs.mkdirSync(this.options.appname);
           this.destinationRoot(this.options.appname)
@@ -90,14 +115,12 @@ module.exports = class extends BaseGenerator {
             { dot : true }
         );
 
-        this.copyFromTemplate('gulpfile.js');
-        this.copyFromTemplate('app.js');
-        this.copyFromTemplate('build-config/*.*', true);
-        this.copyFromTemplate('src/js/**/*.*', true);
-        this.copyFromTemplate('dist/dev/index.html');
-        this.copyFromTemplate('dist/dev/css/**/*.*', true);
-        this.copyFromTemplate('dist/dev/css/*.*', true);
-        this.copyFromTemplate('dist/dev/fonts/**/*.*', true);
+        // copy relevant paths from template
+        // into new directory
+
+        templateSourcePaths.forEach( path => {
+            this.copyFromTemplate(path.pattern, path.useGlob);
+        });
 
         if (!fs.existsSync(this.destinationPath('dist'))) {
             fs.mkdirSync(this.destinationPath('dist'));

@@ -7,10 +7,8 @@ import ConnectedRouter from 'react-router-redux/ConnectedRouter';
 import store from '../store';
 
 
-class RoutingApp extends Component
-{
-    render ()
-    {
+class RoutingApp extends Component {
+    render () {
         return (
             <Provider store={ store }>
                 <ConnectedRouter history={ appHistory }>

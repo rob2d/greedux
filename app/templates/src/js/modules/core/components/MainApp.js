@@ -5,71 +5,53 @@ import connect from 'react-redux/lib/connect/connect'
 
 import { refreshWindowDimensions } from './../actions'
 
-const styles =
-{
-    appWrapper :
-    {
+const styles = {
+    appWrapper : {
         minHeight       : '100%',
         margin          : '0px auto',
         display         : 'flex',
         flexDirection   : 'row'
     },
-    mainWrapper :
-    {
+    mainWrapper : {
         minHeight       : '100%',
         margin          : '0px auto',
         display         : 'flex',
         flexDirection   : 'column',
         flex            : '1 0 auto'
-    },
-    contentWrapper :
-    {
-        maxWidth : '720px',
-        minWidth : '360px',
-        margin   : '0 auto'
-    },
-    mainContainer :
-    {
+    }, 
+    mainContainer : {
         display        : 'flex',
         alignItems     : 'center',
         justifyContent : 'center',
         flex           : '1 0 auto',
         flexDirection  : 'column'
-    },
-    mainContent :
-    {
+    }, 
+    mainContent : {
         flexDirection : 'column',
         display       : 'flex',
         flex          : '1 0 auto'
-    },
-    appFooter :
-    {
+    }, 
+    appFooter : {
         height    : '40px',
         textAlign : 'center'
     }
 };
 
 
-class MainApp extends PureComponent
-{
-    static contextTypes =
-    {
+class MainApp extends PureComponent {
+    static contextTypes = {
         store : PropTypes.object.isRequired,
     };
-    onResizeWindow = ()=>
-    {
-        this.props.onResizeWindow();
+    onResizeWindow = ()=> {
+        this.props.refreshWindowDimensions();
     };
-    componentDidMount()
-    {
+    componentDidMount() {
         window.addEventListener('resize', this.onResizeWindow);
     }
-    componentWillUnmount()
-    {
+    componentWillUnmount() {
         window.removeEventListener('resize', this.onResizeWindow);
     }
-    render ()
-    {
+    render () {
         const { classes } = this.props;
 
         return (
@@ -89,20 +71,16 @@ class MainApp extends PureComponent
     }
 }
 
-const VisibleMainApp = connect(
-    (state, ownProps)=>
-    ({
-        language       : state.core.language,
-        viewportWidth  : state.core.viewportWidth,
-        viewportHeight : state.core.viewportHeight
-    }),
-    (dispatch)=>
-    ({
-        onResizeWindow : ()=>
-        {
-            dispatch(refreshWindowDimensions())
-        }
-    })
+const VisibleMainApp = connect((state, ownProps)=> ({
+    language       : state.core.language,
+    viewportWidth  : state.core.viewportWidth,
+    viewportHeight : state.core.viewportHeight
+}),
+(dispatch)=> ({
+    refreshWindowDimensions : ()=> { 
+        dispatch(refreshWindowDimensions()) 
+    }
+})
 )(injectSheet(styles)(MainApp));
 
 export default VisibleMainApp

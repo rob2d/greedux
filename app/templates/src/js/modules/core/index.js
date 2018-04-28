@@ -1,4 +1,4 @@
-import constants from './constants'
-import reducer   from '../core/reducer'
+import reducer   from '../core/coreReducer'
+import actions   from '../core/coreActions'
 
-export default { constants, reducer }
+export default { reducer, actions }
