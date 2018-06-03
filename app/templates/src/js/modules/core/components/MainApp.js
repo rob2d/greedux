@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import injectSheet from 'react-jss'
 import connect from 'react-redux/lib/connect/connect'
 
-import { refreshWindowDimensions } from './../actions'
+import { refreshWindowDimensions } from './../coreActions'
 
 const styles = {
     appWrapper : {
