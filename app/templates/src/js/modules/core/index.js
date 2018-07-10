@@ -1,4 +1,4 @@
-import reducer   from '../core/coreReducer'
-import actions   from '../core/coreActions'
+import reducer   from './coreReducer'
+import actions   from './coreActions'
 
 export default { reducer, actions }

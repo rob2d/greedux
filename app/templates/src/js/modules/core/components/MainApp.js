@@ -1,9 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import injectSheet from 'react-jss'
-import connect from 'react-redux/lib/connect/connect'
+import { connect } from 'react-redux'
 
-import { refreshWindowDimensions } from './../coreActions'
+import { refreshWindowDimensions } from '../coreActions'
 
 const styles = {
     appWrapper : {
