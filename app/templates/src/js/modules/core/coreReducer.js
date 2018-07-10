@@ -1,4 +1,4 @@
-import { REFRESH_WINDOW_DIMENSIONS } from "./coreActions";
+import { REFRESH_WINDOW_DIMENSIONS } from './coreActions';
 
 // getWindowWidth & getWindowHeight was
 // adapted from http://stackoverflow.com/a/8876069/1291659
